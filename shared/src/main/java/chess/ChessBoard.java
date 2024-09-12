@@ -1,5 +1,7 @@
 package chess;
 
+import javax.swing.text.Position;
+
 /**
  * A chessboard that can hold and rearrange chess pieces.
  * <p>
@@ -9,7 +11,8 @@ package chess;
 public class ChessBoard {
 
     public ChessBoard() {
-        
+        char piece;
+        //ChessPiece[];
     }
 
     /**
