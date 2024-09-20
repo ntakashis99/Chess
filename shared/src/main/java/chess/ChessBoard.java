@@ -1,6 +1,7 @@
 package chess;
 
 import javax.swing.text.Position;
+import java.util.Arrays;
 
 /**
  * A chessboard that can hold and rearrange chess pieces.
@@ -22,9 +23,7 @@ public class ChessBoard {
      * @param piece    the piece to add
      */
     public void addPiece(ChessPosition position, ChessPiece piece) {
-        if (this.getPiece(position) == null) {
-            this.board[position.getRow()][position.getColumn()] = piece;
-        }
+        this.board[position.getRow()-1][position.getColumn()-1] = piece;
     }
 
     /**
@@ -36,7 +35,7 @@ public class ChessBoard {
      * position
      */
     public ChessPiece getPiece(ChessPosition position) {
-        return this.board[position.getRow()][position.getColumn()];
+        return this.board[position.getRow()-1][position.getColumn()-1];
     }
 
     /**
@@ -70,7 +69,25 @@ public class ChessBoard {
         this.board[7][6] = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.KNIGHT);
         this.board[7][7] = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.ROOK);
         for(int i = 0; i < 8; i++) {
-            this.board[6][i] = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.PAWN);
+            this.board[6][i] = new ChessPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.PAWN);
         }
+    }
+
+    @Override
+    public String toString() {
+        return Arrays.deepToString(this.board);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ChessBoard chessBoard = (ChessBoard) o;
+        return Arrays.deepEquals(this.board, chessBoard.board);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.deepHashCode(this.board);
     }
 }

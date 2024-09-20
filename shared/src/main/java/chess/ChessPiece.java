@@ -59,4 +59,33 @@ public class ChessPiece {
         //PieceMoveRule.pieceMoves(board, myPosition)
         return new ArrayList<>();
     }
+
+    //Override equals, tostring hashcode
+    @Override
+    public boolean equals(Object o){
+        if(this == o){
+            return true;
+        }
+        if(o == null || this.getClass() != o.getClass()){
+            return false;
+        }
+        ChessPiece that = (ChessPiece) o;
+
+        boolean b = (this.pieceColor == that.pieceColor) && (this.type == that.type) && (this.position == that.position);
+        return b;
+    }
+
+    @Override
+    public String toString(){
+        return String.format("Type: %s, Color: %s, Position: %s",type,pieceColor,position);
+    }
+
+    @Override
+    public int hashCode(){
+        int a = 31;
+        a = a * position.hashCode();
+        a = a * type.hashCode() + pieceColor.hashCode();
+        return a;
+    }
 }
+
