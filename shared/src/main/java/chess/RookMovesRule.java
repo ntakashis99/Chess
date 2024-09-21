@@ -7,7 +7,7 @@ import java.util.List;
 public class RookMovesRule extends PieceMoveRule {
     @Override
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-        Collection<ChessMove> moves = new ArrayList<>();
-        return moves;
+        int[][] orthogonal = {{0,1},{0,-1},{1,0},{-1,0}};
+        return checkDirections(board,myPosition,orthogonal);
     }
 }

@@ -7,7 +7,6 @@ import java.util.List;
 public class BishopMovesRule extends PieceMoveRule {
     @Override
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-        Collection<ChessMove> moves = new ArrayList<>();
         int[][] diags = {{1,1},{1,-1},{-1,1},{-1,-1}};
         return checkDirections(board,myPosition,diags);
     }

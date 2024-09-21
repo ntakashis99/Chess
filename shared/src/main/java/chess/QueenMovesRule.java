@@ -6,6 +6,7 @@ import java.util.List;
 public class QueenMovesRule extends PieceMoveRule {
     @Override
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-        return List.of();
+        int[][] queen = {{-1,1},{-1,0},{-1,-1},{1,1},{1,0},{1,-1},{0,1},{0,-1}};
+        return checkDirections(board,myPosition,queen);
     }
 }
