@@ -55,9 +55,42 @@ public class ChessPiece {
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
         //Get piece at moves and board
+        ChessPiece piece = board.getPiece(myPosition);
         //Call piece moves on that piece
         //PieceMoveRule.pieceMoves(board, myPosition)
-        return new ArrayList<>();
+
+        if(piece.getPieceType() == PieceType.KING){
+            KingMovesRule rule = new KingMovesRule();
+            return rule.pieceMoves(board, myPosition);
+        }
+
+        if(piece.getPieceType() == PieceType.QUEEN){
+            QueenMovesRule rule = new QueenMovesRule();
+            return rule.pieceMoves(board, myPosition);
+        }
+
+        if(piece.getPieceType() == PieceType.BISHOP){
+            BishopMovesRule rule = new BishopMovesRule();
+            return rule.pieceMoves(board, myPosition);
+        }
+
+        if(piece.getPieceType() == PieceType.KNIGHT){
+            KnightMovesRule rule = new KnightMovesRule();
+            return rule.pieceMoves(board, myPosition);
+        }
+
+        if(piece.getPieceType() == PieceType.ROOK){
+            RookMovesRule rule = new RookMovesRule();
+            return rule.pieceMoves(board, myPosition);
+        }
+
+        if(piece.getPieceType() == PieceType.PAWN){
+            PawnMovesRule rule = new PawnMovesRule();
+            return rule.pieceMoves(board, myPosition);
+        }
+
+        //Switch statement on the piece type, call PAWN.pieceMoves(ssss)
+        return null;
     }
 
     //Override equals, tostring hashcode
