@@ -10,7 +10,7 @@ public abstract class PieceMoveRule {
         for (int[] move : move_changes) {
             //Add boundary checking for positions
             if((myPosition.getRow() + move[0] > 8) ||(myPosition.getRow() + move[0] < 1 ) || (myPosition.getColumn()+ move[1] > 8) || (myPosition.getColumn()+ move[1] < 1)){
-                break;
+                continue;
             }
             else {
                 ChessPosition newPosition = new ChessPosition(myPosition.getRow() + move[0], myPosition.getColumn() + move[1]);
