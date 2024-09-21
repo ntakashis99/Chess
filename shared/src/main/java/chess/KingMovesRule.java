@@ -11,7 +11,7 @@ public class KingMovesRule extends PieceMoveRule {
         int[][] move_changes = new int[][]{{1, -1}, {0,-1}, {0,1}, {-1,0}, {1,0}, {-1, 1}, {-1, -1}, {1, 1}};
         for (int[] move : move_changes) {
             //Add boundary checking for positions
-            if((myPosition.getRow() + move[0] > 7) ||(myPosition.getRow() + move[0] < 0 ) || (myPosition.getColumn()+ move[1] > 7) || (myPosition.getColumn()+ move[1] < 0)){
+            if((myPosition.getRow() + move[0] > 8) ||(myPosition.getRow() + move[0] < 1 ) || (myPosition.getColumn()+ move[1] > 8) || (myPosition.getColumn()+ move[1] < 1)){
                 break;
             }
             else {

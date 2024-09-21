@@ -12,6 +12,9 @@ public class ChessPosition {
     private int col;
 
     public ChessPosition(int row, int col) {
+        if(row < 1 || row > 8 || col < 0 || col > 8){
+            throw new IllegalArgumentException("This position is invalid, number should be between 1 and 8");
+        }
         this.row = row;
         this.col = col;
     }
