@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class KingMovesRule implements PieceMoveRule {
+public class KingMovesRule extends PieceMoveRule {
     @Override
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
         Collection<ChessMove> moves = new ArrayList<>();
@@ -21,6 +21,9 @@ public class KingMovesRule implements PieceMoveRule {
                     if (piece.getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
                         moves.add(new ChessMove(myPosition, newPosition, null));
                     }
+                }
+                else {
+                    moves.add(new ChessMove(myPosition, newPosition, null));
                 }
             }
         }

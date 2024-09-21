@@ -1,11 +1,14 @@
 package chess;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class BishopMovesRule implements PieceMoveRule {
+public class BishopMovesRule extends PieceMoveRule {
     @Override
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-        return List.of();
+        Collection<ChessMove> moves = new ArrayList<>();
+
+        return moves;
     }
 }

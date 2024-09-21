@@ -43,7 +43,7 @@ public class ChessMove {
 
     @Override
     public String toString() {
-        return String.format("Start: %s, End: %s, Type: %s", startPosition, endPosition, pieceType);
+        return String.format("%s -> %s (%s)", startPosition, endPosition, pieceType);
     }
 
     @Override
