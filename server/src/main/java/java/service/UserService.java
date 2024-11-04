@@ -12,9 +12,8 @@ public class UserService {
         this.userDao = userDao;
     }
 
-    public UserData getUser(UserData username) throws DataAccessException {
-        UserData data = userDao.readUser(username);
-        return data;
+    public UserData getUser(UserData user) throws DataAccessException {
+        return userDao.getUser(user);
     }
 }
 
