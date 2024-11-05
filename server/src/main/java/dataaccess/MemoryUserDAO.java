@@ -2,14 +2,11 @@ package dataaccess;
 
 import model.UserData;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class MemoryUserDAO implements UserDAO{
 
-    private ArrayList<Map<String,String>> users = null;
+    private ArrayList<UserData> users = null;
 
     public MemoryUserDAO(){
         this.users = new ArrayList<>();
@@ -18,8 +15,8 @@ public class MemoryUserDAO implements UserDAO{
     @Override
     public UserData getUser(UserData user) throws DataAccessException {
         for(var u:users){
-            if(u.get("username") == user.username()){
-                return new UserData(u.get("username"),u.get("password"),u.get("email"));
+            if(Objects.equals(u.username(), user.username())){
+                return u;
             }
         }
         return null;
@@ -32,11 +29,7 @@ public class MemoryUserDAO implements UserDAO{
 
     @Override
     public UserData createUser(UserData user) throws DataAccessException {
-        Map<String,String> map = new HashMap<>();
-        map.put("username",user.username());
-        map.put("password",user.password());
-        map.put("email",user.email());
-        users.add(map);
+        users.add(new UserData(user.username(),user.password(),user.email()));
         return user;
     }
 }

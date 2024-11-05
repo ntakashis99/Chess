@@ -4,19 +4,22 @@ import com.google.gson.Gson;
 import dataaccess.DataAccessException;
 import dataaccess.MemoryUserDAO;
 import dataaccess.UserDAO;
+import model.LoginResponse;
+import model.UserData;
 import spark.*;
 
-import java.service.UserService;
-import java.util.Map;
+import service.UserService;
 
 public class Server {
 
     private UserService userService;
 
-    public Server(){
-        UserDAO userDAO= new MemoryUserDAO();
+    private UserDAO userDao;
 
-        this.userService = new UserService(userDAO);
+    public Server(){
+        userDao = new MemoryUserDAO();
+
+        this.userService = new UserService(userDao);
     }
 
     public int run(int desiredPort) {
@@ -25,7 +28,7 @@ public class Server {
         Spark.staticFiles.location("web");
 
         // Register your endpoints and handle exceptions here.
-        Spark.post("/session/:username/:password", this::login);
+        Spark.post("/session", this::login);
 
 
         //This line initializes the server and can be removed once you have a functioning endpoint 
@@ -41,11 +44,12 @@ public class Server {
     }
 
     private Object login(Request req, Response res) throws DataAccessException {
-        var user = new Gson().fromJson(req.body(), model.UserData.class);
-        var userdata = userService.getUser(user);
+        UserData user = new Gson().fromJson(req.body(), model.UserData.class);
+        LoginResponse loginrequest = userService.login(user);
 
         //new Gson().toJson(Map.of(req))
-        return null;
+
+        return "{}";
     }
 
 }
