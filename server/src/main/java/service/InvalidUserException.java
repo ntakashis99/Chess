@@ -1,6 +1,8 @@
 package service;
 
-public class InvalidUserException extends RuntimeException {
+import dataaccess.DataAccessException;
+
+public class InvalidUserException extends DataAccessException {
     public InvalidUserException(String message) {
         super(message);
     }
