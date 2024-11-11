@@ -72,15 +72,13 @@ public class Server {
             authService.logout(auth);
         } catch (InvalidUserException e) {
             response.status(401);
-            response.body(e.getMessage());
-            return response;
+            return new Gson().toJson(new ErrorResponse(e.getMessage()));
         } catch (DataAccessException e){
             response.status(500);
-            response.body(e.getMessage());
-            return response;
+            return new Gson().toJson(new ErrorResponse(e.getMessage()));
         }
-        response.body("{}");
-        return response;
+        response.status(200);
+        return new Gson().toJson("{}");
     }
 
     private Object register(Request request, Response response) {
@@ -88,23 +86,22 @@ public class Server {
         RegisterResponse response1 = null;
         if((user.username()==null)||(user.password()==null)||(user.email()==null)){
             response.status(400);
-            response.body("Error: bad request");
-            return response;
+            return new Gson().toJson(new ErrorResponse("Error: bad request"));
         }
         try {
             response1 = userService.register(user);
         } catch (InvalidUserException e) {
             response.status(403);
             response.body(e.getMessage());
-            return response;
+            return new Gson().toJson(new ErrorResponse(e.getMessage()));
         } catch (DataAccessException e) {
             response.status(500);
             response.body(e.getMessage());
-            return response;
+            return new Gson().toJson(new ErrorResponse(e.getMessage()));
         }
         response.status(200);
         response.body(response1.toString());
-        return response;
+        return new Gson().toJson(response1);
     }
 
     private Object clear(Request request, Response response) throws DataAccessException {
@@ -116,8 +113,7 @@ public class Server {
             this.authService = new AuthService(userDao, authDao, gameDao);
             this.gameService = new GameService(userDao, authDao, gameDao);
             response.status(200);
-            response.body("{}");
-            return response;
+            return new Gson().toJson("{}");
         } catch (Exception e) {
             throw new DataAccessException(e.getMessage());
         }
@@ -141,11 +137,10 @@ public class Server {
         catch (DataAccessException exception) {
             res.status(500);
             res.body(exception.getMessage());
-            return res;
+            return new Gson().toJson(new ErrorResponse(exception.getMessage()));
         }
         res.status(200);
-        res.body(String.valueOf(response));
-        return res;
+        return new Gson().toJson(response);
     }
 
 }

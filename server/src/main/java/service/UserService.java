@@ -48,7 +48,7 @@ public class UserService {
     public RegisterResponse register(UserData user) throws DataAccessException{
         UserData userdata = userDao.getUser(user);
         if(userdata!=null){
-            throw new InvalidUserException("user already exists");
+            throw new InvalidUserException("Error: already taken");
         }
         else{
             userDao.createUser(user);
