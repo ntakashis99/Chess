@@ -2,13 +2,14 @@ package server;
 
 import com.google.gson.Gson;
 import dataaccess.*;
-import model.LoginResponse;
+import model.AuthData;
+import service.InvalidUserException;
+import service.requestresult.LoginResponse;
 import model.UserData;
+import service.requestresult.RegisterResponse;
 import spark.*;
 
 import service.UserService;
-
-import java.util.Map;
 
 public class Server {
 
@@ -59,15 +60,48 @@ public class Server {
     }
 
     private Object logout(Request request, Response response) {
+        AuthData auth = new Gson().fromJson(request.body(), model.AuthData.class);
+//        try{
+//
+//        } catch (InvalidUserException e) {
+//
+//        }
         return null;
     }
 
     private Object register(Request request, Response response) {
-        return null;
+        UserData user = new Gson().fromJson(request.body(), model.UserData.class);
+        RegisterResponse response1 = null;
+        if((user.username()==null)||(user.password()==null)||(user.email()==null)){
+            response.status(400);
+            response.body("Error: bad request");
+            return response;
+        }
+        try {
+            response1 = userService.register(user);
+        } catch (DataAccessException e) {
+            response.status(401);
+            response.body(e.getMessage());
+            return response;
+        }
+        response.status(200);
+        response.body(response1.toString());
+        return response;
     }
 
-    private Object clear(Request request, Response response) {
-        return null;
+    private Object clear(Request request, Response response) throws DataAccessException {
+        try {
+            userDao.deleteUser();
+            authDao.deleteAuth();
+            gameDao.deleteGame();
+        } catch (DataAccessException e){
+            response.status(500);
+            response.body(e.getMessage());
+            return response;
+        }
+        response.status(200);
+        response.body("{}");
+        return response;
     }
 
     public void stop() {
@@ -80,14 +114,20 @@ public class Server {
         LoginResponse response = null;
         try {
             response = userService.login(user);
-        } catch (DataAccessException exception) {
+        }
+        catch (InvalidUserException exception){
             res.status(401);
-            res.body("Error: unauthorized");
-            return new Gson().toJson(res);
+            res.body(exception.getMessage());
+            return res;
+        }
+        catch (DataAccessException exception) {
+            res.status(500);
+            res.body(exception.getMessage());
+            return res;
         }
         res.status(200);
         res.body(String.valueOf(response));
-        return new Gson().toJson(res);
+        return res;
     }
 
 }

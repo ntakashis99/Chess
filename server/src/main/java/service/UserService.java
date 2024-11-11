@@ -5,8 +5,9 @@ import dataaccess.DataAccessException;
 import dataaccess.GameDAO;
 import dataaccess.UserDAO;
 import model.AuthData;
-import model.LoginResponse;
+import service.requestresult.LoginResponse;
 import model.UserData;
+import service.requestresult.RegisterResponse;
 
 import java.util.UUID;
 
@@ -40,6 +41,21 @@ public class UserService {
             AuthData authdata = authDao.createAuth(new AuthData(UUID.randomUUID().toString(), user.username()));
 
             return new LoginResponse(userdata.username(), authdata.authToken());
+        }
+
+    }
+
+    public RegisterResponse register(UserData user) throws DataAccessException{
+        UserData userdata = userDao.getUser(user);
+        if(userdata!=null){
+            throw new DataAccessException("user already exists");
+        }
+        else{
+            userDao.createUser(user);
+
+            String auth = UUID.randomUUID().toString();
+            AuthData newAuth = authDao.createAuth(new AuthData(auth,user.username()));
+            return new RegisterResponse(newAuth.username(), newAuth.authToken());
         }
     }
 }
