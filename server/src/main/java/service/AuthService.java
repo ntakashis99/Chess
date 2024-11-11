@@ -1,8 +1,10 @@
 package service;
 
 import dataaccess.AuthDAO;
+import dataaccess.DataAccessException;
 import dataaccess.GameDAO;
 import dataaccess.UserDAO;
+import model.AuthData;
 
 public class AuthService {
 
@@ -14,5 +16,10 @@ public class AuthService {
         this.userDao = userDao;
         this.authDao = authDao;
         this.gameDao = gamedao;
+    }
+
+    public void logout(AuthData auth) throws DataAccessException {
+        AuthData verified = authDao.getAuth(auth);
+        authDao.deleteAuth(verified);
     }
 }

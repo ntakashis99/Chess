@@ -1,6 +1,7 @@
 package dataaccess;
 
 import model.AuthData;
+import service.InvalidUserException;
 
 import java.util.ArrayList;
 
@@ -12,7 +13,7 @@ public class MemoryAuthDAO implements AuthDAO{
     }
 
     @Override
-    public AuthData createAuth(AuthData data) {
+    public AuthData createAuth(AuthData data) throws DataAccessException {
         auths.add(data);
         return data;
     }
@@ -28,7 +29,13 @@ public class MemoryAuthDAO implements AuthDAO{
     }
 
     @Override
-    public void deleteAuth() {
-        this.auths = null;
+    public void deleteAuth(AuthData data) throws InvalidUserException {
+        for(var u:auths){
+            if(u.authToken()==data.authToken()){
+                auths.remove(u);
+                return;
+            }
+            throw new InvalidUserException("Error: unauthorized");
+        }
     }
 }

@@ -3,7 +3,10 @@ package server;
 import com.google.gson.Gson;
 import dataaccess.*;
 import model.AuthData;
+import service.AuthService;
+import service.GameService;
 import service.InvalidUserException;
+import service.requestresult.ErrorResponse;
 import service.requestresult.LoginResponse;
 import model.UserData;
 import service.requestresult.RegisterResponse;
@@ -14,6 +17,8 @@ import service.UserService;
 public class Server {
 
     private UserService userService;
+    private AuthService authService;
+    private GameService gameService;
     private UserDAO userDao;
     private AuthDAO authDao;
     private GameDAO gameDao;
@@ -23,6 +28,8 @@ public class Server {
         authDao = new MemoryAuthDAO();
         gameDao = new MemoryGameDAO();
         this.userService = new UserService(userDao,authDao,gameDao);
+        this.authService = new AuthService(userDao,authDao,gameDao);
+        this.gameService = new GameService(userDao,authDao,gameDao);
     }
 
     public int run(int desiredPort) {
@@ -61,12 +68,19 @@ public class Server {
 
     private Object logout(Request request, Response response) {
         AuthData auth = new Gson().fromJson(request.body(), model.AuthData.class);
-//        try{
-//
-//        } catch (InvalidUserException e) {
-//
-//        }
-        return null;
+        try{
+            authService.logout(auth);
+        } catch (InvalidUserException e) {
+            response.status(401);
+            response.body(e.getMessage());
+            return response;
+        } catch (DataAccessException e){
+            response.status(500);
+            response.body(e.getMessage());
+            return response;
+        }
+        response.body("{}");
+        return response;
     }
 
     private Object register(Request request, Response response) {
@@ -79,8 +93,12 @@ public class Server {
         }
         try {
             response1 = userService.register(user);
+        } catch (InvalidUserException e) {
+            response.status(403);
+            response.body(e.getMessage());
+            return response;
         } catch (DataAccessException e) {
-            response.status(401);
+            response.status(500);
             response.body(e.getMessage());
             return response;
         }
@@ -91,17 +109,18 @@ public class Server {
 
     private Object clear(Request request, Response response) throws DataAccessException {
         try {
-            userDao.deleteUser();
-            authDao.deleteAuth();
-            gameDao.deleteGame();
-        } catch (DataAccessException e){
-            response.status(500);
-            response.body(e.getMessage());
+            userDao = new MemoryUserDAO();
+            authDao = new MemoryAuthDAO();
+            gameDao = new MemoryGameDAO();
+            this.userService = new UserService(userDao, authDao, gameDao);
+            this.authService = new AuthService(userDao, authDao, gameDao);
+            this.gameService = new GameService(userDao, authDao, gameDao);
+            response.status(200);
+            response.body("{}");
             return response;
+        } catch (Exception e) {
+            throw new DataAccessException(e.getMessage());
         }
-        response.status(200);
-        response.body("{}");
-        return response;
     }
 
     public void stop() {
@@ -117,8 +136,7 @@ public class Server {
         }
         catch (InvalidUserException exception){
             res.status(401);
-            res.body(exception.getMessage());
-            return res;
+            return new Gson().toJson(new ErrorResponse(exception.getMessage()));
         }
         catch (DataAccessException exception) {
             res.status(500);

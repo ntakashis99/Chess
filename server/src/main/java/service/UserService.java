@@ -48,11 +48,10 @@ public class UserService {
     public RegisterResponse register(UserData user) throws DataAccessException{
         UserData userdata = userDao.getUser(user);
         if(userdata!=null){
-            throw new DataAccessException("user already exists");
+            throw new InvalidUserException("user already exists");
         }
         else{
             userDao.createUser(user);
-
             String auth = UUID.randomUUID().toString();
             AuthData newAuth = authDao.createAuth(new AuthData(auth,user.username()));
             return new RegisterResponse(newAuth.username(), newAuth.authToken());
