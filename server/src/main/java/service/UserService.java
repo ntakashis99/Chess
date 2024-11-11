@@ -26,11 +26,10 @@ public class UserService {
         }
 
         else{
+            //create authdata and return new loginresponse of the information
 
 
-
-
-            return null;
+            return new LoginResponse(userdata.username(), user.password());
         }
     }
 }

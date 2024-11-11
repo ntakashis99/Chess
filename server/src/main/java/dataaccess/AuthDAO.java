@@ -7,5 +7,4 @@ public interface AuthDAO {
     AuthData createAuth(AuthData data);
     AuthData getAuth(AuthData data);
     void deleteAuth(AuthData data);
-
 }

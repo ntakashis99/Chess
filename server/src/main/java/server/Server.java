@@ -10,6 +10,8 @@ import spark.*;
 
 import service.UserService;
 
+import java.util.Map;
+
 public class Server {
 
     private UserService userService;
@@ -45,11 +47,10 @@ public class Server {
 
     private Object login(Request req, Response res) throws DataAccessException {
         UserData user = new Gson().fromJson(req.body(), model.UserData.class);
-        LoginResponse loginrequest = userService.login(user);
+        LoginResponse response = userService.login(user);
 
-        //new Gson().toJson(Map.of(req))
-
-        return "{}";
+        res.body(String.valueOf(response));
+        return res;
     }
 
 }
