@@ -19,13 +19,13 @@ public class MemoryAuthDAO implements AuthDAO{
     }
 
     @Override
-    public AuthData getAuth(AuthData data) {
+    public AuthData getAuth(AuthData data) throws InvalidUserException {
         for(AuthData auth: auths){
             if(auth.authToken() == data.authToken()){
                 return auth;
             }
         }
-        return null;
+        throw new InvalidUserException("Error: unauthorized");
     }
 
     @Override

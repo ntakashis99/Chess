@@ -26,9 +26,6 @@ public class AuthServiceTest {
         RegisterResponse response = userService.register(new UserData("Nephi","1111","Nephi@1111"));
 
         authService.logout(new AuthData(response.authtoken(), response.username()));
-
-        Assertions.assertThrows(InvalidUserException.class, ()->authService.logout(new AuthData(response.authtoken(), response.username())));
-
     }
 
     @Test
@@ -39,7 +36,6 @@ public class AuthServiceTest {
 
         AuthService authService = new AuthService(userDAO,authDAO,gameDAO);
 
-
-
+        Assertions.assertThrows(InvalidUserException.class, ()->authService.logout(new AuthData("234", "noname")));
     }
 }
