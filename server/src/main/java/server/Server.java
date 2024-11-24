@@ -6,11 +6,8 @@ import model.AuthData;
 import service.AuthService;
 import service.GameService;
 import service.InvalidUserException;
-import service.requestresult.ErrorResponse;
-import service.requestresult.ListGameResponse;
-import service.requestresult.LoginResponse;
+import service.requestresult.*;
 import model.UserData;
-import service.requestresult.RegisterResponse;
 import spark.*;
 
 import service.UserService;
@@ -60,12 +57,28 @@ public class Server {
     }
 
     private Object create(Request request, Response response) {
+        CreateGameRequest request1 = new Gson().fromJson(request.body(), CreateGameRequest.class);
+        int numGames = gameDao.getNumGames();
+        if(request1.gameName().isEmpty()){
+            response.status(400);
+            return new Gson().toJson(new ErrorResponse("Error: bad request"));
+        }
+        try {
+            CreateGameResult response1 = gameService.createGame(request1);
+        } catch (InvalidUserException exception){
+            response.status(401);
+            return new Gson().toJson(new ErrorResponse(exception.getMessage()));
+        }
+        catch (DataAccessException exception) {
+            response.status(500);
+            return new Gson().toJson(new ErrorResponse(exception.getMessage()));
+        }
         return null;
     }
 
     private Object list(Request request, Response response) {
         AuthData auth = new Gson().fromJson(request.body(), model.AuthData.class);
-        ListGameResponse response1 = null;
+        ListGameResult response1 = null;
         try{
             response1 = gameService.listGames(auth);
         } catch (InvalidUserException e) {
@@ -96,7 +109,7 @@ public class Server {
 
     private Object register(Request request, Response response) {
         UserData user = new Gson().fromJson(request.body(), model.UserData.class);
-        RegisterResponse response1 = null;
+        RegisterResult response1 = null;
         if((user.username()==null)||(user.password()==null)||(user.email()==null)){
             response.status(400);
             return new Gson().toJson(new ErrorResponse("Error: bad request"));
@@ -139,7 +152,7 @@ public class Server {
 
     private Object login(Request req, Response res) throws DataAccessException {
         UserData user = new Gson().fromJson(req.body(), model.UserData.class);
-        LoginResponse response = null;
+        LoginResult response = null;
         try {
             response = userService.login(user);
         }

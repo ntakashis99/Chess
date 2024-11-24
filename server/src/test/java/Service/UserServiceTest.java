@@ -3,17 +3,11 @@ package Service;
 import dataaccess.*;
 import model.UserData;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Assertions.*;
-import service.GameService;
 import service.InvalidUserException;
 import service.UserService;
-import service.requestresult.LoginResponse;
-import service.requestresult.RegisterResponse;
-
-import javax.print.DocFlavor;
+import service.requestresult.LoginResult;
+import service.requestresult.RegisterResult;
 
 public class UserServiceTest {
 
@@ -29,9 +23,9 @@ public class UserServiceTest {
 
 
         UserData data = new UserData("Nephi","1111","Nephi@1111");
-        RegisterResponse response = userService.register(data);
+        RegisterResult response = userService.register(data);
 
-        LoginResponse in = userService.login(data);
+        LoginResult in = userService.login(data);
         Assertions.assertEquals(in.username(),"Nephi");
         Assertions.assertNotNull(in.authtoken());
     }
@@ -45,9 +39,9 @@ public class UserServiceTest {
 
 
         UserData data = new UserData("Nephi","1111","Nephi@1111");
-        RegisterResponse response = userService.register(data);
+        RegisterResult response = userService.register(data);
 
-        LoginResponse in = userService.login(data);
+        LoginResult in = userService.login(data);
         Assertions.assertThrows(InvalidUserException.class,()->userService.login(new UserData("Nephi","11","no")));
     }
 
@@ -60,7 +54,7 @@ public class UserServiceTest {
 
 
         UserData data = new UserData("Nephi","1111","Nephi@1111");
-        RegisterResponse response = userService.register(data);
+        RegisterResult response = userService.register(data);
         Assertions.assertEquals(response.username(),"Nephi");
         Assertions.assertNotNull(response.authtoken());
     }
@@ -74,7 +68,7 @@ public class UserServiceTest {
 
 
         UserData data = new UserData("Nephi","1111","Nephi@1111");
-        RegisterResponse response = userService.register(data);
+        RegisterResult response = userService.register(data);
 
 
         Assertions.assertThrows(InvalidUserException.class,()->userService.register(data));

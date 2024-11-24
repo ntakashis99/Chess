@@ -30,7 +30,11 @@ public class MemoryGameDAO implements GameDAO{
     }
 
     @Override
-    public GameData createGame(GameData game) throws DataAccessException {
-        return null;
+    public void createGame(GameData game) throws DataAccessException {
+        games.add(game);
+    }
+
+    public int getNumGames(){
+        return games.size();
     }
 }

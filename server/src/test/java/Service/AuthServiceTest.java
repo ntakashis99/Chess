@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import service.AuthService;
 import service.InvalidUserException;
 import service.UserService;
-import service.requestresult.RegisterResponse;
+import service.requestresult.RegisterResult;
 
 public class AuthServiceTest {
 
@@ -23,7 +23,7 @@ public class AuthServiceTest {
         AuthService authService = new AuthService(userDAO,authDAO,gameDAO);
         UserService userService = new UserService(userDAO,authDAO,gameDAO);
 
-        RegisterResponse response = userService.register(new UserData("Nephi","1111","Nephi@1111"));
+        RegisterResult response = userService.register(new UserData("Nephi","1111","Nephi@1111"));
 
         authService.logout(new AuthData(response.authtoken(), response.username()));
     }
