@@ -1,8 +1,10 @@
 package dataaccess;
 
+import model.AuthData;
 import model.GameData;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class MemoryGameDAO implements GameDAO{
     private ArrayList<GameData> games = null;
@@ -12,8 +14,14 @@ public class MemoryGameDAO implements GameDAO{
     }
 
     @Override
-    public GameData getGame(GameData game) throws DataAccessException {
-        return null;
+    public ArrayList<GameData> getGames(AuthData user) throws DataAccessException {
+        ArrayList<GameData> myGames = new ArrayList<>();
+        for(GameData game:this.games){
+            if(Objects.equals(game.blackUsername(), user.username()) || Objects.equals(game.whiteUsername(), user.username())){
+                myGames.add(game);
+            }
+        }
+        return myGames;
     }
 
     @Override

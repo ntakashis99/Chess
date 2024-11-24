@@ -7,6 +7,7 @@ import service.AuthService;
 import service.GameService;
 import service.InvalidUserException;
 import service.requestresult.ErrorResponse;
+import service.requestresult.ListGameResponse;
 import service.requestresult.LoginResponse;
 import model.UserData;
 import service.requestresult.RegisterResponse;
@@ -63,7 +64,19 @@ public class Server {
     }
 
     private Object list(Request request, Response response) {
-        return null;
+        AuthData auth = new Gson().fromJson(request.body(), model.AuthData.class);
+        ListGameResponse response1 = null;
+        try{
+            response1 = gameService.listGames(auth);
+        } catch (InvalidUserException e) {
+            response.status(401);
+            return new Gson().toJson(new ErrorResponse(e.getMessage()));
+        } catch (DataAccessException e){
+            response.status(500);
+            return new Gson().toJson(new ErrorResponse(e.getMessage()));
+        }
+        response.status(200);
+        return new Gson().toJson(response1);
     }
 
     private Object logout(Request request, Response response) {
