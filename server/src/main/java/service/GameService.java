@@ -9,6 +9,7 @@ import model.AuthData;
 import model.GameData;
 import service.requestresult.CreateGameRequest;
 import service.requestresult.CreateGameResult;
+import service.requestresult.JoinGameRequest;
 import service.requestresult.ListGameResult;
 
 public class GameService {
@@ -34,6 +35,11 @@ public class GameService {
         GameData data = new GameData(num_games+1,null,null,request.gameName(),new ChessGame());
         gameDao.createGame(data);
         return new CreateGameResult(data.gameID());
+    }
+
+    public CreateGameResult joinGame(JoinGameRequest request) throws DataAccessException {
+        AuthData verified = authDao.getAuth(new AuthData(request.authorization(),null));
+
     }
 
 

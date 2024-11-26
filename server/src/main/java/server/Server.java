@@ -59,21 +59,22 @@ public class Server {
     private Object create(Request request, Response response) {
         CreateGameRequest request1 = new Gson().fromJson(request.body(), CreateGameRequest.class);
         int numGames = gameDao.getNumGames();
-        if(request1.gameName().isEmpty()){
+        if (request1.gameName().isEmpty()) {
             response.status(400);
             return new Gson().toJson(new ErrorResponse("Error: bad request"));
         }
+        CreateGameResult response1;
         try {
-            CreateGameResult response1 = gameService.createGame(request1);
-        } catch (InvalidUserException exception){
+            response1 = gameService.createGame(request1);
+        } catch (InvalidUserException exception) {
             response.status(401);
             return new Gson().toJson(new ErrorResponse(exception.getMessage()));
-        }
-        catch (DataAccessException exception) {
+        } catch (DataAccessException exception) {
             response.status(500);
             return new Gson().toJson(new ErrorResponse(exception.getMessage()));
         }
-        return null;
+        response.status(200);
+        return new Gson().toJson(response1);
     }
 
     private Object list(Request request, Response response) {
