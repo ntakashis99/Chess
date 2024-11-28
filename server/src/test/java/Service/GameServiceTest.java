@@ -15,6 +15,8 @@ import service.requestresult.CreateGameResult;
 import service.requestresult.JoinGameRequest;
 import service.requestresult.RegisterResult;
 
+import javax.xml.crypto.Data;
+
 public class GameServiceTest {
     @Test
     void listGames() throws DataAccessException {
@@ -90,7 +92,9 @@ public class GameServiceTest {
 
         CreateGameResult gameRes = gameService.joinGame(new JoinGameRequest(r.authtoken(),"WHITE",1));
 
-        Assertions.assertEquals("nephi", gameService.listGames(new AuthData(r.authtoken(), "nephi")).games().get(0).whiteUsername());
+        var ans = gameService.listGames(new AuthData(r.authtoken(), "nephi")).games().get(0).whiteUsername();
+
+        Assertions.assertEquals("nephi", ans);
     }
 
     @Test
@@ -107,7 +111,10 @@ public class GameServiceTest {
 
         CreateGameResult gameRes = gameService.joinGame(new JoinGameRequest(r.authtoken(),"WHITE",1));
 
-        Assertions.assertEquals("nephi", gameService.listGames(new AuthData(r.authtoken(), "nephi")).games().get(0).whiteUsername());
+
+        RegisterResult r2 = userService.register(new UserData("hana","1234","no@g"));
+        Assertions.assertThrows(DataAccessException.class,()->gameService.joinGame(new JoinGameRequest(r2.authtoken(),"WHITE",1)));
+
 
     }
 }
