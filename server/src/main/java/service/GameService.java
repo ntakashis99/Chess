@@ -39,7 +39,9 @@ public class GameService {
 
     public CreateGameResult joinGame(JoinGameRequest request) throws DataAccessException {
         AuthData verified = authDao.getAuth(new AuthData(request.authorization(),null));
-
+        var game = gameDao.getGame(request.gameID());
+        //Start here by making checking if the color is right, if all good
+        //set the new one as it. Then return the result.
     }
 
 

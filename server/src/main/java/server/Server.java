@@ -53,7 +53,27 @@ public class Server {
     }
 
     private Object join(Request request, Response response) {
-        return null;
+        JoinGameRequest request1 = new Gson().fromJson(request.body(), JoinGameRequest.class);
+
+        if (request1.authorization() == null || request1.gameID() == null || request1.playerColor() == null) {
+            response.status(400);
+            return new Gson().toJson(new ErrorResponse("Error: bad request"));
+        }
+        CreateGameResult result;
+        try {
+            result = gameService.joinGame(request1);
+        } catch (InvalidUserException e) {
+            response.status(401);
+            return new Gson().toJson(new ErrorResponse(e.getMessage()));
+        } catch (DataAccessException e) {
+            response.status(403);
+            return new Gson().toJson(new ErrorResponse(e.getMessage()));
+        } catch (Exception e) {
+            response.status(500);
+            return new Gson().toJson(new ErrorResponse(e.getMessage()));
+        }
+        response.status(200);
+        return new Gson().toJson(result);
     }
 
     private Object create(Request request, Response response) {

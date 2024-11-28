@@ -37,4 +37,24 @@ public class MemoryGameDAO implements GameDAO{
     public int getNumGames(){
         return games.size();
     }
+
+    @Override
+    public GameData getGame(int gameID) throws DataAccessException {
+        for(GameData game:games){
+            if(game.gameID()==gameID){
+                return game;
+            }
+        }
+        throw new DataAccessException("Error: bad request");
+    }
+
+    @Override
+    public void setGame(GameData game) throws DataAccessException {
+        for(GameData gameData:games){
+            if(gameData.gameID()==game.gameID()){
+                gameData = game;
+            }
+        }
+        throw new DataAccessException("Error: bad request");
+    }
 }
