@@ -37,11 +37,27 @@ public class GameService {
         return new CreateGameResult(data.gameID());
     }
 
-    public CreateGameResult joinGame(JoinGameRequest request) throws DataAccessException {
+    public CreateGameResult joinGame(JoinGameRequest request) throws Exception {
         AuthData verified = authDao.getAuth(new AuthData(request.authorization(),null));
         var game = gameDao.getGame(request.gameID());
         //Start here by making checking if the color is right, if all good
         //set the new one as it. Then return the result.
+        if(request.playerColor() == "WHITE"){
+            if(game.whiteUsername()!=null){
+                throw new DataAccessException("Error: already taken");
+            }
+            GameData ourGame = new GameData(request.gameID(), verified.username(), game.blackUsername(),game.gameName(),game.game());
+            gameDao.setGame(ourGame);
+            return new CreateGameResult(ourGame.gameID());
+        } else if (request.playerColor()=="BLACK") {
+            if(game.blackUsername()!=null){
+                throw new DataAccessException("Error: already taken");
+            }
+            GameData ourGame = new GameData(request.gameID(), game.whiteUsername(), verified.username(), game.gameName(),game.game());
+            gameDao.setGame(ourGame);
+            return new CreateGameResult(ourGame.gameID());
+        }
+        throw new Exception("Error: something went wrong");
     }
 
 

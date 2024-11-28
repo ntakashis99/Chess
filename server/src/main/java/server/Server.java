@@ -55,7 +55,7 @@ public class Server {
     private Object join(Request request, Response response) {
         JoinGameRequest request1 = new Gson().fromJson(request.body(), JoinGameRequest.class);
 
-        if (request1.authorization() == null || request1.gameID() == null || request1.playerColor() == null) {
+        if (request1.authorization() == null || request1.playerColor() == null) {
             response.status(400);
             return new Gson().toJson(new ErrorResponse("Error: bad request"));
         }
