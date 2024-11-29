@@ -8,8 +8,8 @@ package chess;
  */
 public class ChessPosition {
     //Private variables are row and col
-    private int row;
-    private int col;
+    private final int row;
+    private final int col;
 
     public ChessPosition(int row, int col) {
         if(row < 1 || row > 8 || col < 0 || col > 8){

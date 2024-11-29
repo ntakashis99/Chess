@@ -31,7 +31,7 @@ public class UserService {
         }
 
         //Add the password check here;
-        if(userdata.password()!=user.password()){
+        if(!userdata.password().equals(user.password())){
             throw new InvalidUserException("Password is not Valid");
         }
 

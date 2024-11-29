@@ -12,6 +12,8 @@ import spark.*;
 
 import service.UserService;
 
+import java.util.Map;
+
 public class Server {
 
     private UserService userService;
@@ -31,6 +33,7 @@ public class Server {
     }
 
     public int run(int desiredPort) {
+
         Spark.port(desiredPort);
 
         Spark.staticFiles.location("web");
@@ -160,7 +163,7 @@ public class Server {
             this.authService = new AuthService(userDao, authDao, gameDao);
             this.gameService = new GameService(userDao, authDao, gameDao);
             response.status(200);
-            return new Gson().toJson("{}");
+            return new Gson().toJson(Map.of("message:",""));
         } catch (Exception e) {
             throw new DataAccessException(e.getMessage());
         }

@@ -1,21 +1,14 @@
-package Service;
+package service;
 
-import chess.ChessGame;
 import dataaccess.*;
 import model.AuthData;
-import model.GameData;
 import model.UserData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import service.GameService;
-import service.InvalidUserException;
-import service.UserService;
 import service.requestresult.CreateGameRequest;
 import service.requestresult.CreateGameResult;
 import service.requestresult.JoinGameRequest;
 import service.requestresult.RegisterResult;
-
-import javax.xml.crypto.Data;
 
 public class GameServiceTest {
     @Test

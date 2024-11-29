@@ -1,11 +1,9 @@
-package Service;
+package service;
 
 import dataaccess.*;
 import model.UserData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import service.InvalidUserException;
-import service.UserService;
 import service.requestresult.LoginResult;
 import service.requestresult.RegisterResult;
 
@@ -27,7 +25,7 @@ public class UserServiceTest {
 
         LoginResult in = userService.login(data);
         Assertions.assertEquals(in.username(),"Nephi");
-        Assertions.assertNotNull(in.authtoken());
+        Assertions.assertNotNull(in.authToken());
     }
 
     @Test

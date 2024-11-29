@@ -1,13 +1,10 @@
-package Service;
+package service;
 
 import dataaccess.*;
 import model.AuthData;
 import model.UserData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import service.AuthService;
-import service.InvalidUserException;
-import service.UserService;
 import service.requestresult.RegisterResult;
 
 public class AuthServiceTest {
