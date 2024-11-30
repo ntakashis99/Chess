@@ -12,6 +12,8 @@ import service.requestresult.CreateGameResult;
 import service.requestresult.JoinGameRequest;
 import service.requestresult.ListGameResult;
 
+import java.util.Objects;
+
 public class GameService {
 
     private UserDAO userDao = null;
@@ -24,8 +26,8 @@ public class GameService {
         this.gameDao = gameDao;
     }
 
-    public ListGameResult listGames(AuthData auth) throws DataAccessException {
-        AuthData verified = authDao.getAuth(auth.authToken());
+    public ListGameResult listGames(String auth) throws DataAccessException {
+        AuthData verified = authDao.getAuth(auth);
         return new ListGameResult(gameDao.getGames(verified));
     }
 
@@ -42,14 +44,14 @@ public class GameService {
         var game = gameDao.getGame(request.gameID());
         //Start here by making checking if the color is right, if all good
         //set the new one as it. Then return the result.
-        if(request.playerColor() == "WHITE"){
+        if(Objects.equals(request.playerColor(), "WHITE")){
             if(game.whiteUsername()!=null){
                 throw new DataAccessException("Error: already taken");
             }
             GameData ourGame = new GameData(request.gameID(), verified.username(), game.blackUsername(),game.gameName(),game.game());
             gameDao.setGame(ourGame);
             return new CreateGameResult(ourGame.gameID());
-        } else if (request.playerColor()=="BLACK") {
+        } else if (Objects.equals(request.playerColor(), "BLACK")) {
             if(game.blackUsername()!=null){
                 throw new DataAccessException("Error: already taken");
             }

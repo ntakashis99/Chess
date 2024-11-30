@@ -22,7 +22,7 @@ public class GameServiceTest {
         r = userService.register(new UserData("nephi","1111","1@g"));
 
         gameService.createGame(new CreateGameRequest(r.authToken(),"game1"));
-        Assertions.assertNotNull(gameService.listGames(new AuthData(r.authToken(),null)));
+        Assertions.assertNotNull(gameService.listGames(r.authToken()));
 
     }
 
@@ -54,7 +54,7 @@ public class GameServiceTest {
         r = userService.register(new UserData("nephi","1111","1@g"));
 
         gameService.createGame(new CreateGameRequest(r.authToken(),"game1"));
-        Assertions.assertNotNull(gameService.listGames(new AuthData(r.authToken(),null)));
+        Assertions.assertNotNull(gameService.listGames(r.authToken()));
     }
 
     @Test
@@ -85,7 +85,7 @@ public class GameServiceTest {
 
         CreateGameResult gameRes = gameService.joinGame(new JoinGameRequest(r.authToken(),"WHITE",1));
 
-        var ans = gameService.listGames(new AuthData(r.authToken(), "nephi")).games().get(0).whiteUsername();
+        var ans = gameService.listGames(r.authToken()).games().getFirst().whiteUsername();
 
         Assertions.assertEquals("nephi", ans);
     }

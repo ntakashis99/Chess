@@ -56,7 +56,8 @@ public class Server {
     }
 
     private Object join(Request request, Response response) {
-        JoinGameRequest request1 = new Gson().fromJson(request.body(), JoinGameRequest.class);
+        JoinGameRequest tempReq = new Gson().fromJson(request.body(), JoinGameRequest.class);
+        JoinGameRequest request1 = new JoinGameRequest(request.headers("authorization"), tempReq.playerColor(), tempReq.gameID());
 
         if (request1.authorization() == null || request1.playerColor() == null) {
             response.status(400);
@@ -102,10 +103,9 @@ public class Server {
     }
 
     private Object list(Request request, Response response) {
-        AuthData auth = new Gson().fromJson(request.body(), model.AuthData.class);
         ListGameResult response1 = null;
         try{
-            response1 = gameService.listGames(auth);
+            response1 = gameService.listGames(request.headers("authorization"));
         } catch (InvalidUserException e) {
             response.status(401);
             return new Gson().toJson(new ErrorResponse(e.getMessage()));
@@ -118,7 +118,6 @@ public class Server {
     }
 
     private Object logout(Request request, Response response) {
-
         try{
             authService.logout(request.headers("authorization"));
         } catch (InvalidUserException e) {
