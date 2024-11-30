@@ -80,7 +80,8 @@ public class Server {
     }
 
     private Object create(Request request, Response response) {
-        CreateGameRequest request1 = new Gson().fromJson(request.body(), CreateGameRequest.class);
+        CreateGameRequest tempReq = new Gson().fromJson(request.body(), CreateGameRequest.class);
+        CreateGameRequest request1 = new CreateGameRequest(request.headers("authorization"), tempReq.gameName());
         int numGames = gameDao.getNumGames();
         if (request1.gameName().isEmpty()) {
             response.status(400);
