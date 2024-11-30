@@ -27,12 +27,12 @@ public class UserService {
         UserData userdata = userDao.getUser(user);
 
         if(userdata==null){
-            throw new InvalidUserException("Username is not Valid");
+            throw new InvalidUserException("Error: unauthorized");
         }
 
         //Add the password check here;
         if(!userdata.password().equals(user.password())){
-            throw new InvalidUserException("Password is not Valid");
+            throw new InvalidUserException("Error: unauthorized");
         }
 
         else{

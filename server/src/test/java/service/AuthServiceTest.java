@@ -22,7 +22,7 @@ public class AuthServiceTest {
 
         RegisterResult response = userService.register(new UserData("Nephi","1111","Nephi@1111"));
 
-        authService.logout(new AuthData(response.authtoken(), response.username()));
+        authService.logout(response.authToken());
     }
 
     @Test
@@ -33,6 +33,6 @@ public class AuthServiceTest {
 
         AuthService authService = new AuthService(userDAO,authDAO,gameDAO);
 
-        Assertions.assertThrows(InvalidUserException.class, ()->authService.logout(new AuthData("234", "noname")));
+        Assertions.assertThrows(InvalidUserException.class, ()->authService.logout("111"));
     }
 }

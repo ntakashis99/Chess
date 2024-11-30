@@ -54,7 +54,7 @@ public class UserServiceTest {
         UserData data = new UserData("Nephi","1111","Nephi@1111");
         RegisterResult response = userService.register(data);
         Assertions.assertEquals(response.username(),"Nephi");
-        Assertions.assertNotNull(response.authtoken());
+        Assertions.assertNotNull(response.authToken());
     }
 
     @Test

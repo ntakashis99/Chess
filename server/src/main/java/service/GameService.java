@@ -25,12 +25,12 @@ public class GameService {
     }
 
     public ListGameResult listGames(AuthData auth) throws DataAccessException {
-        AuthData verified = authDao.getAuth(auth);
+        AuthData verified = authDao.getAuth(auth.authToken());
         return new ListGameResult(gameDao.getGames(verified));
     }
 
     public CreateGameResult createGame(CreateGameRequest request) throws DataAccessException{
-        AuthData verified = authDao.getAuth(new AuthData(request.authorization(),null));
+        AuthData verified = authDao.getAuth(request.authorization());
         int num_games = gameDao.getNumGames();
         GameData data = new GameData(num_games+1,null,null,request.gameName(),new ChessGame());
         gameDao.createGame(data);
@@ -38,7 +38,7 @@ public class GameService {
     }
 
     public CreateGameResult joinGame(JoinGameRequest request) throws Exception {
-        AuthData verified = authDao.getAuth(new AuthData(request.authorization(),null));
+        AuthData verified = authDao.getAuth(request.authorization());
         var game = gameDao.getGame(request.gameID());
         //Start here by making checking if the color is right, if all good
         //set the new one as it. Then return the result.

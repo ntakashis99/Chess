@@ -18,7 +18,7 @@ public class AuthService {
         this.gameDao = gamedao;
     }
 
-    public void logout(AuthData auth) throws DataAccessException {
+    public void logout(String auth) throws DataAccessException {
         AuthData verified = authDao.getAuth(auth);
         authDao.deleteAuth(verified);
     }

@@ -117,9 +117,9 @@ public class Server {
     }
 
     private Object logout(Request request, Response response) {
-        AuthData auth = new Gson().fromJson(request.body(), model.AuthData.class);
+
         try{
-            authService.logout(auth);
+            authService.logout(request.headers("authorization"));
         } catch (InvalidUserException e) {
             response.status(401);
             return new Gson().toJson(new ErrorResponse(e.getMessage()));
@@ -128,7 +128,7 @@ public class Server {
             return new Gson().toJson(new ErrorResponse(e.getMessage()));
         }
         response.status(200);
-        return new Gson().toJson("{}");
+        return "{}";
     }
 
     private Object register(Request request, Response response) {
@@ -163,7 +163,7 @@ public class Server {
             this.authService = new AuthService(userDao, authDao, gameDao);
             this.gameService = new GameService(userDao, authDao, gameDao);
             response.status(200);
-            return new Gson().toJson(Map.of("message:",""));
+            return "{}";
         } catch (Exception e) {
             throw new DataAccessException(e.getMessage());
         }

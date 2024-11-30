@@ -21,8 +21,8 @@ public class GameServiceTest {
         RegisterResult r;
         r = userService.register(new UserData("nephi","1111","1@g"));
 
-        gameService.createGame(new CreateGameRequest(r.authtoken(),"game1"));
-        Assertions.assertNotNull(gameService.listGames(new AuthData(r.authtoken(),null)));
+        gameService.createGame(new CreateGameRequest(r.authToken(),"game1"));
+        Assertions.assertNotNull(gameService.listGames(new AuthData(r.authToken(),null)));
 
     }
 
@@ -36,7 +36,7 @@ public class GameServiceTest {
 
         RegisterResult r;
         r = userService.register(new UserData("nephi","1111","1@g"));
-        gameService.createGame(new CreateGameRequest(r.authtoken(),"game1"));
+        gameService.createGame(new CreateGameRequest(r.authToken(),"game1"));
         Assertions.assertThrows(InvalidUserException.class,()->gameService.createGame(new CreateGameRequest(null,null)));
 
 
@@ -53,8 +53,8 @@ public class GameServiceTest {
         RegisterResult r;
         r = userService.register(new UserData("nephi","1111","1@g"));
 
-        gameService.createGame(new CreateGameRequest(r.authtoken(),"game1"));
-        Assertions.assertNotNull(gameService.listGames(new AuthData(r.authtoken(),null)));
+        gameService.createGame(new CreateGameRequest(r.authToken(),"game1"));
+        Assertions.assertNotNull(gameService.listGames(new AuthData(r.authToken(),null)));
     }
 
     @Test
@@ -67,7 +67,7 @@ public class GameServiceTest {
 
         RegisterResult r;
         r = userService.register(new UserData("nephi","1111","1@g"));
-        gameService.createGame(new CreateGameRequest(r.authtoken(),"game1"));
+        gameService.createGame(new CreateGameRequest(r.authToken(),"game1"));
         Assertions.assertThrows(InvalidUserException.class,()->gameService.createGame(new CreateGameRequest(null,null)));
     }
 
@@ -81,11 +81,11 @@ public class GameServiceTest {
 
         RegisterResult r;
         r = userService.register(new UserData("nephi","1111","1@g"));
-        gameService.createGame(new CreateGameRequest(r.authtoken(),"game1"));
+        gameService.createGame(new CreateGameRequest(r.authToken(),"game1"));
 
-        CreateGameResult gameRes = gameService.joinGame(new JoinGameRequest(r.authtoken(),"WHITE",1));
+        CreateGameResult gameRes = gameService.joinGame(new JoinGameRequest(r.authToken(),"WHITE",1));
 
-        var ans = gameService.listGames(new AuthData(r.authtoken(), "nephi")).games().get(0).whiteUsername();
+        var ans = gameService.listGames(new AuthData(r.authToken(), "nephi")).games().get(0).whiteUsername();
 
         Assertions.assertEquals("nephi", ans);
     }
@@ -100,13 +100,13 @@ public class GameServiceTest {
 
         RegisterResult r;
         r = userService.register(new UserData("nephi","1111","1@g"));
-        gameService.createGame(new CreateGameRequest(r.authtoken(),"game1"));
+        gameService.createGame(new CreateGameRequest(r.authToken(),"game1"));
 
-        CreateGameResult gameRes = gameService.joinGame(new JoinGameRequest(r.authtoken(),"WHITE",1));
+        CreateGameResult gameRes = gameService.joinGame(new JoinGameRequest(r.authToken(),"WHITE",1));
 
 
         RegisterResult r2 = userService.register(new UserData("hana","1234","no@g"));
-        Assertions.assertThrows(DataAccessException.class,()->gameService.joinGame(new JoinGameRequest(r2.authtoken(),"WHITE",1)));
+        Assertions.assertThrows(DataAccessException.class,()->gameService.joinGame(new JoinGameRequest(r2.authToken(),"WHITE",1)));
 
 
     }

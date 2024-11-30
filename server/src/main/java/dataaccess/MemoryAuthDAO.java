@@ -19,9 +19,12 @@ public class MemoryAuthDAO implements AuthDAO{
     }
 
     @Override
-    public AuthData getAuth(AuthData data) throws InvalidUserException {
+    public AuthData getAuth(String authToken) throws InvalidUserException {
+        if(authToken==null){
+            throw new InvalidUserException("Error: unauthorized");
+        }
         for(AuthData auth: auths){
-            if(auth.authToken() == data.authToken()){
+            if(auth.authToken().equals(authToken)){
                 return auth;
             }
         }
