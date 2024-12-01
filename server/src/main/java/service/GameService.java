@@ -41,7 +41,7 @@ public class GameService {
 
     public CreateGameResult joinGame(JoinGameRequest request) throws Exception {
         AuthData verified = authDao.getAuth(request.authorization());
-        var game = gameDao.getGame(request.gameID());
+        GameData game = gameDao.getGame(request.gameID());
         //Start here by making checking if the color is right, if all good
         //set the new one as it. Then return the result.
         if(Objects.equals(request.playerColor(), "WHITE")){
