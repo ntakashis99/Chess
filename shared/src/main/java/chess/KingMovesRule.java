@@ -8,6 +8,6 @@ public class KingMovesRule extends PieceMoveRule {
     @Override
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
         int[][] move_changes = new int[][]{{1, -1}, {0,-1}, {0,1}, {-1,0}, {1,0}, {-1, 1}, {-1, -1}, {1, 1}};
-        return check_moves(board,myPosition,move_changes);
+        return checkMoves(board,myPosition,move_changes);
     }
 }
