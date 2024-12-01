@@ -28,7 +28,7 @@ public class GameService {
 
     public ListGameResult listGames(String auth) throws DataAccessException {
         AuthData verified = authDao.getAuth(auth);
-        return new ListGameResult(gameDao.getGames(verified));
+        return new ListGameResult(gameDao.getGames());
     }
 
     public CreateGameResult createGame(CreateGameRequest request) throws DataAccessException{

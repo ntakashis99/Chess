@@ -14,14 +14,8 @@ public class MemoryGameDAO implements GameDAO{
     }
 
     @Override
-    public ArrayList<GameData> getGames(AuthData user) throws DataAccessException {
-        ArrayList<GameData> myGames = new ArrayList<>();
-        for(GameData game:this.games){
-            if(Objects.equals(game.blackUsername(), user.username()) || Objects.equals(game.whiteUsername(), user.username())){
-                myGames.add(game);
-            }
-        }
-        return myGames;
+    public ArrayList<GameData> getGames() throws DataAccessException {
+        return this.games;
     }
 
     @Override
