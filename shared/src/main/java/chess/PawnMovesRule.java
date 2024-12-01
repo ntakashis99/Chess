@@ -56,10 +56,10 @@ public class PawnMovesRule extends PieceMoveRule {
             }
 
             if(myPosition.getRow() == 2){
-                ChessPosition first_movePosition = new ChessPosition(myPosition.getRow() + 2, myPosition.getColumn() );
-                ChessPiece first_movePiece = board.getPiece(first_movePosition);
-                if(first_movePiece==null && piece==null){
-                    moves.add(new ChessMove(myPosition,first_movePosition,null));
+                ChessPosition firstMovePosition = new ChessPosition(myPosition.getRow() + 2, myPosition.getColumn() );
+                ChessPiece firstMovePiece = board.getPiece(firstMovePosition);
+                if(firstMovePiece==null && piece==null){
+                    moves.add(new ChessMove(myPosition,firstMovePosition,null));
                 }
             }
 
@@ -136,10 +136,10 @@ public class PawnMovesRule extends PieceMoveRule {
             }
 
             if(myPosition.getRow() == 7){
-                ChessPosition first_movePosition = new ChessPosition(myPosition.getRow() - 2, myPosition.getColumn() );
-                ChessPiece first_movePiece = board.getPiece(first_movePosition);
-                if(first_movePiece==null && piece==null){
-                    moves.add(new ChessMove(myPosition,first_movePosition,null));
+                ChessPosition firstMovePosition = new ChessPosition(myPosition.getRow() - 2, myPosition.getColumn() );
+                ChessPiece firstMovePiece = board.getPiece(firstMovePosition);
+                if(firstMovePiece==null && piece==null){
+                    moves.add(new ChessMove(myPosition,firstMovePosition,null));
                 }
             }
 

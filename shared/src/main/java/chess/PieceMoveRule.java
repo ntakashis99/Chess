@@ -6,9 +6,9 @@ import java.util.Collection;
 
 public abstract class PieceMoveRule {
     public abstract Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition);
-    public Collection<ChessMove> check_moves(ChessBoard board, ChessPosition myPosition, int[][] move_changes){
+    public Collection<ChessMove> checkMoves(ChessBoard board, ChessPosition myPosition, int[][] moveChanges){
         Collection<ChessMove> moves = new ArrayList<>();
-        for (int[] move : move_changes) {
+        for (int[] move : moveChanges) {
             //Add boundary checking for positions
             if((myPosition.getRow() + move[0] > 8) ||(myPosition.getRow() + move[0] < 1 ) || (myPosition.getColumn()+ move[1] > 8) || (myPosition.getColumn()+ move[1] < 1)){
                 continue;
@@ -35,9 +35,9 @@ public abstract class PieceMoveRule {
         //Check a direction
         for (int[] direction : directions) {
             //Check bounds
-            ChessPosition current_pos = myPosition;
-            while(!(current_pos.getRow() + direction[0] > 8) && !(current_pos.getRow() + direction[0] < 1 ) && !(current_pos.getColumn()+ direction[1] > 8) && !(current_pos.getColumn()+ direction[1] < 1)){
-                ChessPosition newPosition = new ChessPosition(current_pos.getRow() + direction[0], current_pos.getColumn() + direction[1]);
+            ChessPosition currentPos = myPosition;
+            while(!(currentPos.getRow() + direction[0] > 8) && !(currentPos.getRow() + direction[0] < 1 ) && !(currentPos.getColumn()+ direction[1] > 8) && !(currentPos.getColumn()+ direction[1] < 1)){
+                ChessPosition newPosition = new ChessPosition(currentPos.getRow() + direction[0], currentPos.getColumn() + direction[1]);
                 ChessPiece piece = board.getPiece(newPosition);
                 if (piece != null) {
                     if (piece.getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
@@ -51,7 +51,7 @@ public abstract class PieceMoveRule {
                 else {
                     moves.add(new ChessMove(myPosition, newPosition, null));
                 }
-                current_pos = newPosition;
+                currentPos = newPosition;
             }
 
             // if it's null, add position and check further
