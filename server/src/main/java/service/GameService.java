@@ -33,8 +33,8 @@ public class GameService {
 
     public CreateGameResult createGame(CreateGameRequest request) throws DataAccessException{
         AuthData verified = authDao.getAuth(request.authorization());
-        int num_games = gameDao.getNumGames();
-        GameData data = new GameData(num_games+1,null,null,request.gameName(),new ChessGame());
+        int numGames = gameDao.getNumGames();
+        GameData data = new GameData(numGames+1,null,null,request.gameName(),new ChessGame());
         gameDao.createGame(data);
         return new CreateGameResult(data.gameID());
     }
