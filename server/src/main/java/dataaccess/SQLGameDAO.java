@@ -1,5 +1,6 @@
 package dataaccess;
 
+import chess.ChessGame;
 import com.google.gson.Gson;
 import model.GameData;
 import model.UserData;
@@ -67,7 +68,24 @@ public class SQLGameDAO implements GameDAO {
 
     @Override
     public GameData getGame(int gameID) throws DataAccessException {
-        return null;
+        try (var conn = DatabaseManager.getConnection()){
+            var statement = "SELECT gameId, whiteUsername, blackUsername, gameName, game FROM GameData WHERE gameID=?";
+            try(var ps = conn.prepareStatement(statement)){
+                ps.setInt(0,gameID);
+                try(var rs = ps.executeQuery()){
+                    if(rs.next()){
+                        return new GameData(rs.getInt(0),rs.getString(1),rs.getString(2),rs.getString(3),
+                        new Gson().fromJson(rs.getString(4), ChessGame.class));
+                    }
+                    else{
+                        throw new InvalidUserException("Error: unauthorized");
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new DataAccessException(e.getMessage());
+        }
     }
 
     @Override
