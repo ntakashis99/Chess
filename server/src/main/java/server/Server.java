@@ -23,10 +23,21 @@ public class Server {
     private AuthDAO authDao;
     private GameDAO gameDao;
 
-    public Server(){
-        userDao = new MemoryUserDAO();
-        authDao = new MemoryAuthDAO();
-        gameDao = new MemoryGameDAO();
+    public Server() {
+//        userDao = new MemoryUserDAO();
+//        authDao = new MemoryAuthDAO();
+//        gameDao = new MemoryGameDAO();
+        //Start up Database manager
+        try {
+            DatabaseManager.createDatabase();
+
+        } catch (DataAccessException e) {
+            throw new RuntimeException(e);
+        }
+
+        userDao = new SQLUserDAO();
+        authDao = new SQLAuthDAO();
+        gameDao = new SQLGameDAO();
         this.userService = new UserService(userDao,authDao,gameDao);
         this.authService = new AuthService(userDao,authDao,gameDao);
         this.gameService = new GameService(userDao,authDao,gameDao);
