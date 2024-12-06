@@ -4,7 +4,13 @@ import model.GameData;
 
 import java.util.ArrayList;
 
+import static dataaccess.DatabaseManager.createTables;
+
 public class SQLGameDAO implements GameDAO {
+
+    public SQLGameDAO(){
+    }
+
     @Override
     public ArrayList<GameData> getGames() throws DataAccessException {
         return null;

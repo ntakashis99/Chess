@@ -30,14 +30,15 @@ public class Server {
         //Start up Database manager
         try {
             DatabaseManager.createDatabase();
-
+            DatabaseManager.createTables();
         } catch (DataAccessException e) {
             throw new RuntimeException(e);
         }
 
+
+        gameDao = new SQLGameDAO();
         userDao = new SQLUserDAO();
         authDao = new SQLAuthDAO();
-        gameDao = new SQLGameDAO();
         this.userService = new UserService(userDao,authDao,gameDao);
         this.authService = new AuthService(userDao,authDao,gameDao);
         this.gameService = new GameService(userDao,authDao,gameDao);

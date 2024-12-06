@@ -74,35 +74,33 @@ public class DatabaseManager {
     private static final String[] createStatements = {
             """
             CREATE TABLE IF NOT EXISTS AuthData (
-            `username` varchar(256) NOT NULL,
-            `authToken` varchar(256) NOT NULL,
-            PRIMARY KEY (`username`)
-            INDEX(authToken)
-            )
+                `username` varchar(256) NOT NULL,
+                `authToken` varchar(256) NOT NULL,
+                PRIMARY KEY (`username`))
             """,
             """
             CREATE TABLE IF NOT EXISTS UserData (
-            `username` varchar(256) NOT NULL,
-            `password` varchar(256) NOT NULL,
-            `email` varchar(256) NOT NULL,
-            PRIMARY KEY (`username`)
+                `username` varchar(256) NOT NULL,
+                `password` varchar(256) NOT NULL,
+                `email` varchar(256) NOT NULL,
+                PRIMARY KEY (`username`)
             )
             """,
             """
             CREATE TABLE IF NOT EXISTS GameData (
-            `gameID` int NOT NULL,
-            `whiteUsername` varchar(256),
-            `blackUsername` varchar(256),
-            `gameName` varchar(256) NOT NULL,
-            `game` text NOT NULL,
-            PRIMARY KEY (`username`),
-            INDEX(authToken)
+                `gameID` int NOT NULL,
+                `whiteUsername` varchar(256),
+                `blackUsername` varchar(256),
+                `gameName` varchar(256) NOT NULL,
+                `game` TEXT NOT NULL,
+                PRIMARY KEY (`gameID`)
             )
             """
     };
 
     //ADD code to initialize the tables (CREATE TABLE IF NOT EXIST) check petshop
     public static void createTables() throws DataAccessException {
+        DatabaseManager.createDatabase();
         try(var conn = DriverManager.getConnection(CONNECTION_URL, USER, PASSWORD)){
             for(var statement : createStatements)
                 try (var preparedStatement = conn.prepareStatement(statement)) {
