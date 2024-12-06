@@ -82,7 +82,6 @@ public class SQLGameDAO implements GameDAO {
                     }
                 }
             }
-
         } catch (SQLException e) {
             throw new DataAccessException(e.getMessage());
         }
@@ -90,6 +89,18 @@ public class SQLGameDAO implements GameDAO {
 
     @Override
     public void setGame(GameData game) throws DataAccessException {
-
+        try (var conn = DatabaseManager.getConnection()){
+            var statement = "UPDATE GameData SET whiteUsername = ?, blackUsername=?,gameName=?,game=? WHERE gameId = ?";
+            try(var ps = conn.prepareStatement(statement)){
+                ps.setString(0,game.whiteUsername());
+                ps.setString(1,game.blackUsername());
+                ps.setString(2,game.gameName());
+                ps.setString(3,new Gson().toJson(game.game()));
+                ps.setInt(4,game.gameID());
+                var rs = ps.executeQuery();
+            }
+        } catch (SQLException e) {
+            throw new DataAccessException(e.getMessage());
+        }
     }
 }
