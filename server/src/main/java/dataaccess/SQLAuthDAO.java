@@ -22,8 +22,8 @@ public class SQLAuthDAO implements AuthDAO{
         try (var conn = DatabaseManager.getConnection()){
             var statement = "INSERT INTO AuthData (username,authToken) VALUES (?,?)";
             try(var ps = conn.prepareStatement(statement)){
-                ps.setString(0,data.username());
-                ps.setString(1,data.authToken());
+                ps.setString(1,data.username());
+                ps.setString(2,data.authToken());
                 ps.executeUpdate();
             }
 
@@ -41,10 +41,10 @@ public class SQLAuthDAO implements AuthDAO{
         try (var conn = DatabaseManager.getConnection()){
             var statement = "SELECT username, authToken FROM AuthData WHERE authToken=?";
             try(var ps = conn.prepareStatement(statement)){
-                ps.setString(0,data);
+                ps.setString(1,data);
                 try(var rs = ps.executeQuery()){
                     if(rs.next()){
-                        return new AuthData(rs.getString(0),rs.getString(1));
+                        return new AuthData(rs.getString(1),rs.getString(2));
                     }
                     else{
                         throw new InvalidUserException("Error: unauthorized");
@@ -62,7 +62,19 @@ public class SQLAuthDAO implements AuthDAO{
         try (var conn = DatabaseManager.getConnection()){
             var statement = "DELETE FROM AuthData WHERE authToken=?";
             try(var ps = conn.prepareStatement(statement)){
-                ps.setString(0,data.authToken());
+                ps.setString(1,data.authToken());
+                ps.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new DataAccessException(e.getMessage());
+        }
+    }
+
+    @Override
+    public void deleteAllAuth() throws DataAccessException {
+        try (var conn = DatabaseManager.getConnection()){
+            var statement = "TRUNCATE AuthData";
+            try(var ps = conn.prepareStatement(statement)){
                 ps.executeUpdate();
             }
         } catch (SQLException e) {

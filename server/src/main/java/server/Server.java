@@ -168,9 +168,14 @@ public class Server {
 
     private Object clear(Request request, Response response) throws DataAccessException {
         try {
-            userDao = new MemoryUserDAO();
-            authDao = new MemoryAuthDAO();
-            gameDao = new MemoryGameDAO();
+            userDao.deleteAllUsers();
+            authDao.deleteAllAuth();
+            gameDao.deleteAllGames();
+
+            userDao = new SQLUserDAO();
+            authDao = new SQLAuthDAO();
+            gameDao = new SQLGameDAO();
+
             this.userService = new UserService(userDao, authDao, gameDao);
             this.authService = new AuthService(userDao, authDao, gameDao);
             this.gameService = new GameService(userDao, authDao, gameDao);

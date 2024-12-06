@@ -41,4 +41,9 @@ public class MemoryAuthDAO implements AuthDAO{
             throw new InvalidUserException("Error: unauthorized");
         }
     }
+
+    @Override
+    public void deleteAllAuth() throws DataAccessException {
+
+    }
 }

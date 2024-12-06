@@ -42,10 +42,10 @@ public class SQLGameDAO implements GameDAO {
             //ASK HOW TO SET SOME VALUES BUT NOT ALL
             var statement = "INSERT INTO GameData (whiteUsername,blackUsername,gameName,game) VALUES (?,?,?,?)";
             try(var ps = conn.prepareStatement(statement)){
-                ps.setString(0,game.whiteUsername());
-                ps.setString(1,game.blackUsername());
-                ps.setString(2,game.gameName());
-                ps.setString(3,new Gson().toJson(game.game()));
+                ps.setString(1,game.whiteUsername());
+                ps.setString(2,game.blackUsername());
+                ps.setString(3,game.gameName());
+                ps.setString(4,new Gson().toJson(game.game()));
                 try(var rs = ps.executeQuery()){
                     if(rs.next()){
                         return;
@@ -71,11 +71,11 @@ public class SQLGameDAO implements GameDAO {
         try (var conn = DatabaseManager.getConnection()){
             var statement = "SELECT gameId, whiteUsername, blackUsername, gameName, game FROM GameData WHERE gameID=?";
             try(var ps = conn.prepareStatement(statement)){
-                ps.setInt(0,gameID);
+                ps.setInt(1,gameID);
                 try(var rs = ps.executeQuery()){
                     if(rs.next()){
-                        return new GameData(rs.getInt(0),rs.getString(1),rs.getString(2),rs.getString(3),
-                        new Gson().fromJson(rs.getString(4), ChessGame.class));
+                        return new GameData(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),
+                        new Gson().fromJson(rs.getString(5), ChessGame.class));
                     }
                     else{
                         throw new InvalidUserException("Error: unauthorized");
@@ -92,11 +92,11 @@ public class SQLGameDAO implements GameDAO {
         try (var conn = DatabaseManager.getConnection()){
             var statement = "UPDATE GameData SET whiteUsername = ?, blackUsername=?,gameName=?,game=? WHERE gameId = ?";
             try(var ps = conn.prepareStatement(statement)){
-                ps.setString(0,game.whiteUsername());
-                ps.setString(1,game.blackUsername());
-                ps.setString(2,game.gameName());
-                ps.setString(3,new Gson().toJson(game.game()));
-                ps.setInt(4,game.gameID());
+                ps.setString(1,game.whiteUsername());
+                ps.setString(2,game.blackUsername());
+                ps.setString(3,game.gameName());
+                ps.setString(4,new Gson().toJson(game.game()));
+                ps.setInt(5,game.gameID());
                 var rs = ps.executeQuery();
             }
         } catch (SQLException e) {

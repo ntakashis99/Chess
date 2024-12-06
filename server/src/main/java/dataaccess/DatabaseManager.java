@@ -101,7 +101,7 @@ public class DatabaseManager {
     //ADD code to initialize the tables (CREATE TABLE IF NOT EXIST) check petshop
     public static void createTables() throws DataAccessException {
         DatabaseManager.createDatabase();
-        try(var conn = DriverManager.getConnection(CONNECTION_URL, USER, PASSWORD)){
+        try(var conn = DatabaseManager.getConnection()){
             for(var statement : createStatements)
                 try (var preparedStatement = conn.prepareStatement(statement)) {
                     preparedStatement.executeUpdate();

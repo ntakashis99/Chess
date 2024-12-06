@@ -6,6 +6,7 @@ import service.InvalidUserException;
 import java.sql.SQLException;
 
 public class SQLUserDAO implements UserDAO{
+
     public SQLUserDAO(){
         try {
             DatabaseManager.createTables();
@@ -22,10 +23,10 @@ public class SQLUserDAO implements UserDAO{
         try (var conn = DatabaseManager.getConnection()){
             var statement = "SELECT username, password, email FROM UserData WHERE username=?";
             try(var ps = conn.prepareStatement(statement)){
-                ps.setString(0,user.username());
+                ps.setString(1,user.username());
                 try(var rs = ps.executeQuery()){
                     if(rs.next()){
-                        return new UserData(rs.getString(0),rs.getString(1),rs.getString(2));
+                        return new UserData(rs.getString(1),rs.getString(2),rs.getString(3));
                     }
                     else{
                         throw new InvalidUserException("Error: unauthorized");
@@ -55,12 +56,12 @@ public class SQLUserDAO implements UserDAO{
         try (var conn = DatabaseManager.getConnection()){
             var statement = "INSERT INTO UserData (username, password, email) VALUES (?,?,?)";
             try(var ps = conn.prepareStatement(statement)){
-                ps.setString(0,user.username());
-                ps.setString(1,user.password());
-                ps.setString(2,user.email());
+                ps.setString(1,user.username());
+                ps.setString(2,user.password());
+                ps.setString(3,user.email());
                 try(var rs = ps.executeQuery()){
                     if(rs.next()){
-                        return new UserData(rs.getString(0),rs.getString(1),rs.getString(2));
+                        return new UserData(rs.getString(1),rs.getString(2),rs.getString(3));
                     }
                     else{
                         throw new InvalidUserException("Error: unauthorized");
