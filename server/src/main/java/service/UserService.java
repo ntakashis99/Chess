@@ -34,7 +34,6 @@ public class UserService {
         if(!userdata.password().equals(user.password())){
             throw new InvalidUserException("Error: unauthorized");
         }
-
         else{
             //create authdata and return new loginresponse of the information
 

@@ -39,7 +39,7 @@ public class SQLAuthDAO implements AuthDAO{
             throw new InvalidUserException("Error: unauthorized");
         }
         try (var conn = DatabaseManager.getConnection()){
-            var statement = "SELECT username, authToken FROM AuthData WHERE authToken=?";
+            var statement = "SELECT username, authToken FROM AuthData WHERE authToken =?";
             try(var ps = conn.prepareStatement(statement)){
                 ps.setString(1,data);
                 try(var rs = ps.executeQuery()){

@@ -21,16 +21,14 @@ public class SQLUserDAO implements UserDAO{
             throw new InvalidUserException("Error: unauthorized");
         }
         try (var conn = DatabaseManager.getConnection()){
-            var statement = "SELECT username, password, email FROM UserData WHERE username=?";
+            var statement = "SELECT username, password, email FROM UserData WHERE username =?";
             try(var ps = conn.prepareStatement(statement)){
                 ps.setString(1,user.username());
                 try(var rs = ps.executeQuery()){
-                    if(rs.next()){
-                        return new UserData(rs.getString(1),rs.getString(2),rs.getString(3));
+                    if(rs.next()) {
+                        return new UserData(rs.getString(1), rs.getString(2), rs.getString(3));
                     }
-                    else{
-                        throw new InvalidUserException("Error: unauthorized");
-                    }
+                    return null;
                 }
             }
 
@@ -52,23 +50,15 @@ public class SQLUserDAO implements UserDAO{
     }
 
     @Override
-    public UserData createUser(UserData user) throws DataAccessException {
+    public void createUser(UserData user) throws DataAccessException {
         try (var conn = DatabaseManager.getConnection()){
             var statement = "INSERT INTO UserData (username, password, email) VALUES (?,?,?)";
             try(var ps = conn.prepareStatement(statement)){
                 ps.setString(1,user.username());
                 ps.setString(2,user.password());
                 ps.setString(3,user.email());
-                try(var rs = ps.executeQuery()){
-                    if(rs.next()){
-                        return new UserData(rs.getString(1),rs.getString(2),rs.getString(3));
-                    }
-                    else{
-                        throw new InvalidUserException("Error: unauthorized");
-                    }
-                }
+                ps.executeUpdate();
             }
-
         } catch (SQLException e) {
             throw new DataAccessException(e.getMessage());
         }

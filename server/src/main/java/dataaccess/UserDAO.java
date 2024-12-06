@@ -8,6 +8,6 @@ public interface UserDAO {
 
     void deleteAllUsers() throws DataAccessException;
 
-    UserData createUser(UserData user) throws DataAccessException;
+    void createUser(UserData user) throws DataAccessException;
 
 }
