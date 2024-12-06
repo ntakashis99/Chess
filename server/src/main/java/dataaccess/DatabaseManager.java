@@ -71,7 +71,7 @@ public class DatabaseManager {
     }
 
 
-    private final String[] createStatements = {
+    private static final String[] createStatements = {
             """
             CREATE TABLE IF NOT EXISTS AuthData (
             `username` varchar(256) NOT NULL,
@@ -103,23 +103,11 @@ public class DatabaseManager {
 
     //ADD code to initialize the tables (CREATE TABLE IF NOT EXIST) check petshop
     public static void createTables() throws DataAccessException {
-        try {
-            var statement = "CREATE TABLE IF NOT EXISTS " + "AuthData";
-
-            var conn = DriverManager.getConnection(CONNECTION_URL, USER, PASSWORD);
-            try (var preparedStatement = conn.prepareStatement(statement)) {
-                preparedStatement.executeUpdate();
-            }
-            var statement1 = "CREATE TABLE IF NOT EXISTS " + "UserData";
-            var conn1 = DriverManager.getConnection(CONNECTION_URL, USER, PASSWORD);
-            try (var preparedStatement1 = conn1.prepareStatement(statement1)) {
-                preparedStatement1.executeUpdate();
-            }
-            var statement2 = "CREATE TABLE IF NOT EXISTS " + "GameData";
-            var conn2 = DriverManager.getConnection(CONNECTION_URL, USER, PASSWORD);
-            try (var preparedStatement2 = conn2.prepareStatement(statement2)) {
-                preparedStatement2.executeUpdate();
-            }
+        try(var conn = DriverManager.getConnection(CONNECTION_URL, USER, PASSWORD)){
+            for(var statement : createStatements)
+                try (var preparedStatement = conn.prepareStatement(statement)) {
+                    preparedStatement.executeUpdate();
+                }
         } catch (SQLException e) {
             throw new DataAccessException(e.getMessage());
         }
