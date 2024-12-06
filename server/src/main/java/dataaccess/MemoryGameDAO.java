@@ -19,7 +19,7 @@ public class MemoryGameDAO implements GameDAO{
     }
 
     @Override
-    public void deleteGame() throws DataAccessException {
+    public void deleteAllGames() throws DataAccessException {
         this.games = null;
     }
 
