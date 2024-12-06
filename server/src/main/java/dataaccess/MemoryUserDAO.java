@@ -23,9 +23,10 @@ public class MemoryUserDAO implements UserDAO{
     }
 
     @Override
-    public void deleteUser() throws DataAccessException {
-        this.users = null;
+    public void deleteAllUsers() throws DataAccessException {
+        this.users = new ArrayList<>();
     }
+
 
     @Override
     public UserData createUser(UserData user) throws DataAccessException {

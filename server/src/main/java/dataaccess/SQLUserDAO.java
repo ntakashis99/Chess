@@ -1,6 +1,5 @@
 package dataaccess;
 
-import model.AuthData;
 import model.UserData;
 import service.InvalidUserException;
 
@@ -40,12 +39,37 @@ public class SQLUserDAO implements UserDAO{
     }
 
     @Override
-    public void deleteUser() throws DataAccessException {
-
+    public void deleteAllUsers() throws DataAccessException {
+        try (var conn = DatabaseManager.getConnection()){
+            var statement = "TRUNCATE UserData";
+            try(var ps = conn.prepareStatement(statement)){
+                ps.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new DataAccessException(e.getMessage());
+        }
     }
 
     @Override
     public UserData createUser(UserData user) throws DataAccessException {
-        return null;
+        try (var conn = DatabaseManager.getConnection()){
+            var statement = "INSERT INTO UserData (username, password, email) VALUES (?,?,?)";
+            try(var ps = conn.prepareStatement(statement)){
+                ps.setString(0,user.username());
+                ps.setString(1,user.password());
+                ps.setString(2,user.email());
+                try(var rs = ps.executeQuery()){
+                    if(rs.next()){
+                        return new UserData(rs.getString(0),rs.getString(1),rs.getString(2));
+                    }
+                    else{
+                        throw new InvalidUserException("Error: unauthorized");
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new DataAccessException(e.getMessage());
+        }
     }
 }
