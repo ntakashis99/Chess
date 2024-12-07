@@ -71,9 +71,13 @@ public class Server {
         JoinGameRequest tempReq = new Gson().fromJson(request.body(), JoinGameRequest.class);
         JoinGameRequest request1 = new JoinGameRequest(request.headers("authorization"), tempReq.playerColor(), tempReq.gameID());
 
-        if (request1.authorization() == null || request1.playerColor() == null|| request1.gameID() < 1 || request1.gameID() > gameDao.getNumGames()) {
-            response.status(400);
-            return new Gson().toJson(new ErrorResponse("Error: bad request"));
+        try {
+            if (request1.authorization() == null || request1.playerColor() == null|| request1.gameID() < 1 || request1.gameID() > gameDao.getNumGames()) {
+                response.status(400);
+                return new Gson().toJson(new ErrorResponse("Error: bad request"));
+            }
+        } catch (DataAccessException e) {
+            throw new RuntimeException(e);
         }
         CreateGameResult result;
         try {
@@ -95,7 +99,6 @@ public class Server {
     private Object create(Request request, Response response) {
         CreateGameRequest tempReq = new Gson().fromJson(request.body(), CreateGameRequest.class);
         CreateGameRequest request1 = new CreateGameRequest(request.headers("authorization"), tempReq.gameName());
-        int numGames = gameDao.getNumGames();
         if (request1.gameName().isEmpty()) {
             response.status(400);
             return new Gson().toJson(new ErrorResponse("Error: bad request"));

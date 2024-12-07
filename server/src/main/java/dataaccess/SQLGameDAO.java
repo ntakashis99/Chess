@@ -46,14 +46,7 @@ public class SQLGameDAO implements GameDAO {
                 ps.setString(2,game.blackUsername());
                 ps.setString(3,game.gameName());
                 ps.setString(4,new Gson().toJson(game.game()));
-                try(var rs = ps.executeQuery()){
-                    if(rs.next()){
-                        return;
-                    }
-                    else{
-                        throw new InvalidUserException("Error: unauthorized");
-                    }
-                }
+                ps.executeUpdate();
             }
 
         } catch (SQLException e) {
@@ -62,8 +55,17 @@ public class SQLGameDAO implements GameDAO {
     }
 
     @Override
-    public int getNumGames() {
-        return 0;
+    public int getNumGames() throws DataAccessException {
+        try (var conn = DatabaseManager.getConnection()){
+            var statement = "SELECT COUNT(*) FROM GameData";
+            try(var ps = conn.prepareStatement(statement)){
+                try(var rs = ps.executeQuery()){
+                    return rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            throw new DataAccessException(e.getMessage());
+        }
     }
 
     @Override

@@ -44,7 +44,7 @@ public class SQLAuthDAO implements AuthDAO{
                 ps.setString(1,data);
                 try(var rs = ps.executeQuery()){
                     if(rs.next()){
-                        return new AuthData(rs.getString(1),rs.getString(2));
+                        return new AuthData(rs.getString(2),rs.getString(1));
                     }
                     else{
                         throw new InvalidUserException("Error: unauthorized");
