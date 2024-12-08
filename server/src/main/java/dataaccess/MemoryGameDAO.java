@@ -1,10 +1,9 @@
 package dataaccess;
 
-import model.AuthData;
+import chess.ChessGame;
 import model.GameData;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class MemoryGameDAO implements GameDAO{
     private ArrayList<GameData> games = null;
@@ -24,8 +23,9 @@ public class MemoryGameDAO implements GameDAO{
     }
 
     @Override
-    public void createGame(GameData game) throws DataAccessException {
-        games.add(game);
+    public int createGame(String gameName) throws DataAccessException {
+        games.add(new GameData(games.size() +1,null,null,gameName,new ChessGame()));
+        return games.size();
     }
 
     public int getNumGames(){

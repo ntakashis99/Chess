@@ -3,7 +3,6 @@ package dataaccess;
 import chess.ChessGame;
 import com.google.gson.Gson;
 import model.GameData;
-import model.UserData;
 import service.InvalidUserException;
 
 import java.sql.SQLException;
@@ -21,7 +20,12 @@ public class SQLGameDAO implements GameDAO {
 
     @Override
     public ArrayList<GameData> getGames() throws DataAccessException {
-        return null;
+        ArrayList<GameData> games = new ArrayList<>();
+        int numGames = getNumGames();
+        for(int i=1;i<=numGames;i++){
+            games.add(getGame(i));
+        }
+        return games;
     }
 
     @Override
@@ -37,21 +41,21 @@ public class SQLGameDAO implements GameDAO {
     }
 
     @Override
-    public void createGame(GameData game) throws DataAccessException {
+    public int createGame(String gameName) throws DataAccessException {
         try (var conn = DatabaseManager.getConnection()){
             //ASK HOW TO SET SOME VALUES BUT NOT ALL
             var statement = "INSERT INTO GameData (whiteUsername,blackUsername,gameName,game) VALUES (?,?,?,?)";
             try(var ps = conn.prepareStatement(statement)){
-                ps.setString(1,game.whiteUsername());
-                ps.setString(2,game.blackUsername());
-                ps.setString(3,game.gameName());
-                ps.setString(4,new Gson().toJson(game.game()));
+                ps.setString(1, null);
+                ps.setString(2, null);
+                ps.setString(3, gameName);
+                ps.setString(4,new Gson().toJson(new ChessGame()));
                 ps.executeUpdate();
             }
-
         } catch (SQLException e) {
             throw new DataAccessException(e.getMessage());
         }
+        return getNumGames();
     }
 
     @Override
@@ -60,12 +64,15 @@ public class SQLGameDAO implements GameDAO {
             var statement = "SELECT COUNT(*) FROM GameData";
             try(var ps = conn.prepareStatement(statement)){
                 try(var rs = ps.executeQuery()){
-                    return rs.getInt(1);
+                    if(rs.next()){
+                        return rs.getInt(1);
+                    }
                 }
             }
         } catch (SQLException e) {
             throw new DataAccessException(e.getMessage());
         }
+        return 0;
     }
 
     @Override
@@ -99,7 +106,7 @@ public class SQLGameDAO implements GameDAO {
                 ps.setString(3,game.gameName());
                 ps.setString(4,new Gson().toJson(game.game()));
                 ps.setInt(5,game.gameID());
-                var rs = ps.executeQuery();
+                ps.executeUpdate();
             }
         } catch (SQLException e) {
             throw new DataAccessException(e.getMessage());

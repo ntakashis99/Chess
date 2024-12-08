@@ -88,7 +88,7 @@ public class DatabaseManager {
             """,
             """
             CREATE TABLE IF NOT EXISTS GameData (
-                `gameID` int NOT NULL,
+                `gameID` int NOT NULL AUTO_INCREMENT,
                 `whiteUsername` varchar(256),
                 `blackUsername` varchar(256),
                 `gameName` varchar(256) NOT NULL,
