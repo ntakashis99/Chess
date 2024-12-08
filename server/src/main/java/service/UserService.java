@@ -5,6 +5,7 @@ import dataaccess.DataAccessException;
 import dataaccess.GameDAO;
 import dataaccess.UserDAO;
 import model.AuthData;
+import org.mindrot.jbcrypt.BCrypt;
 import service.requestresult.LoginResult;
 import model.UserData;
 import service.requestresult.RegisterResult;
@@ -23,6 +24,9 @@ public class UserService {
         this.gameDao = gamedao;
     }
 
+
+
+
     public LoginResult login(UserData user) throws DataAccessException {
         UserData userdata = userDao.getUser(user);
 
@@ -30,10 +34,15 @@ public class UserService {
             throw new InvalidUserException("Error: unauthorized");
         }
 
+        //Verify user
+        boolean isSame = BCrypt.checkpw(user.password(), userdata.password());
+
+
         //Add the password check here;
-        if(!userdata.password().equals(user.password())){
+        if(!isSame){
             throw new InvalidUserException("Error: unauthorized");
         }
+
         else{
             //create authdata and return new loginresponse of the information
 
@@ -50,7 +59,8 @@ public class UserService {
             throw new InvalidUserException("Error: already taken");
         }
         else{
-            userDao.createUser(user);
+            String hashedPassword = BCrypt.hashpw(user.password(), BCrypt.gensalt());
+            userDao.createUser(new UserData(user.username(),hashedPassword,user.email()));
             String auth = UUID.randomUUID().toString();
             AuthData newAuth = authDao.createAuth(new AuthData(auth,user.username()));
             return new RegisterResult(newAuth.username(), newAuth.authToken());
