@@ -6,15 +6,19 @@ public class Client {
     private final PreLoginRepl preRepl;
     private final PostLoginRepl postRepl;
     private final GameRepl gameRepl;
+    private String status;
 
 
 
     public Client(String url){
         this.URL = url;
-        preRepl = new PreLoginRepl();
-        postRepl = new PostLoginRepl();
-        gameRepl = new GameRepl();
+        preRepl = new PreLoginRepl(this.URL);
+        postRepl = new PostLoginRepl(this.URL);
+        gameRepl = new GameRepl(this.URL);
+    }
 
+    public void run(){
         preRepl.run();
+
     }
 }

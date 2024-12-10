@@ -26,43 +26,43 @@ public class ServerFacade {
         serverUrl = port;
     }
 
-    private AuthData register(String username, String password, String email) throws ResponseException {
+    public AuthData register(String username, String password, String email) throws ResponseException {
         String path = "/user";
         var auth =  this.makeRequest("POST", path, new UserData(username, password, email), AuthData.class);
         this.authToken = auth.authToken();
         return auth;
     }
 
-    private AuthData login(String username, String password) throws ResponseException {
+    public AuthData login(String username, String password) throws ResponseException {
         String path = "/session";
         var auth =  this.makeRequest("POST", path, new UserData(username, password,null), AuthData.class);
         this.authToken = auth.authToken();
         return auth;
     }
 
-    private void logout() throws ResponseException {
+    public void logout() throws ResponseException {
         String path = "/session";
         this.makeRequest("DELETE",path,this.authToken,null);
     }
 
-    private int create(String gameName) throws ResponseException {
+    public int create(String gameName) throws ResponseException {
         String path = "/game";
         return this.makeRequest("POST",path,new CreateGameRequest(this.authToken,gameName),int.class);
     }
 
-    private ArrayList<GameData> list() throws ResponseException {
+    public ArrayList<GameData> list() throws ResponseException {
         String path = "/game";
         record listGameResponse(ArrayList<GameData> games) {
         }
         return this.makeRequest("GET",path,this.authToken, listGameResponse.class).games();
     }
 
-    private int join(String color, int gameID) throws ResponseException {
+    public int join(String color, int gameID) throws ResponseException {
         String path = "/game";
         return this.makeRequest("PUT",path, new JoinGameRequest(this.authToken,color,gameID),int.class);
     }
 
-    private void clear() throws ResponseException {
+    public void clear() throws ResponseException {
         String path = "/db";
         this.makeRequest("DELETE",path,null,null);
     }
@@ -126,4 +126,5 @@ public class ServerFacade {
     private boolean isSuccessful(int status) {
         return status / 100 == 2;
     }
+
 }
