@@ -3,7 +3,10 @@ package ui;
 import chess.ChessGame;
 import com.google.gson.Gson;
 import model.AuthData;
+import model.GameData;
 import model.UserData;
+import ui.requestresult.CreateGameRequest;
+import ui.requestresult.JoinGameRequest;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,6 +15,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class ServerFacade {
 
@@ -41,20 +45,26 @@ public class ServerFacade {
         this.makeRequest("DELETE",path,this.authToken,null);
     }
 
-    private void create(String gameName){
-
+    private int create(String gameName) throws ResponseException {
+        String path = "/game";
+        return this.makeRequest("POST",path,new CreateGameRequest(this.authToken,gameName),int.class);
     }
 
-    private void list(){
-
+    private ArrayList<GameData> list() throws ResponseException {
+        String path = "/game";
+        record listGameResponse(ArrayList<GameData> games) {
+        }
+        return this.makeRequest("GET",path,this.authToken, listGameResponse.class).games();
     }
 
-    private void join(ChessGame.TeamColor color, int gameID){
-
+    private int join(String color, int gameID) throws ResponseException {
+        String path = "/game";
+        return this.makeRequest("PUT",path, new JoinGameRequest(this.authToken,color,gameID),int.class);
     }
 
-    private void clear(){
-
+    private void clear() throws ResponseException {
+        String path = "/db";
+        this.makeRequest("DELETE",path,null,null);
     }
 
 
