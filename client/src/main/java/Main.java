@@ -7,5 +7,6 @@ public class Main {
         System.out.println("♕ 240 Chess Client ♕\nType help to get started");
         //Open the main menu repl loop
         Client ui = new Client("http://localhost:8080");
+        ui.run();
     }
 }

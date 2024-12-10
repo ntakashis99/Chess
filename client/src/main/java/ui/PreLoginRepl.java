@@ -25,6 +25,10 @@ public class PreLoginRepl {
                 """;
         System.out.println(welcomePrompt);
 
+        String username;
+        String password;
+        String email;
+
         Scanner scanner = new Scanner(System.in);
 
         var input = scanner.nextLine();
@@ -33,11 +37,11 @@ public class PreLoginRepl {
             switch(input){
                 case "1":
                     System.out.println("Enter username");
-                    var username = scanner.nextLine();
+                    username = scanner.nextLine();
                     System.out.println("Enter password");
-                    var password = scanner.nextLine();
+                    password = scanner.nextLine();
                     System.out.println("Enter email");
-                    var email = scanner.nextLine();
+                    email = scanner.nextLine();
                     try {
                         serverFacade.register(username,password,email);
                     } catch (ResponseException e) {
@@ -45,10 +49,25 @@ public class PreLoginRepl {
                         System.out.print(msg);
                     }
                 case "2":
-
-                case "3":
-
+                    System.out.println("Enter username");
+                    username = scanner.nextLine();
+                    System.out.println("Enter password");
+                    password = scanner.nextLine();
+                    try {
+                        serverFacade.login(username,password);
+                    } catch (ResponseException e) {
+                        var msg = e.toString();
+                        System.out.print(msg);
+                    }
+                default:
+                    System.out.println("Please input one of the following numbers to begin\n" +
+                            "                1 -  Register (a new account)\n" +
+                            "                2 - Login (an existing user)\n" +
+                            "                3 - Help (list options)\n" +
+                            "                4 - Quit (exit the chess application)");
+                    input = scanner.nextLine();
             }
+
 
         }
 

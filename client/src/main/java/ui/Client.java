@@ -18,6 +18,7 @@ public class Client {
     }
 
     public void run(){
+        //Add a loop because you need to loop potentially infinitely through the three menu options.
         preRepl.run();
 
     }
