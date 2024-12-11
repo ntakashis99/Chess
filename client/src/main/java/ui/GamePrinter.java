@@ -22,7 +22,12 @@ public class GamePrinter {
 
         for(int i=1;i<=8;i++){
             for(int j=1;j<=8;j++){
-                printSpace(i,j,out,game);
+                if(this.view == ChessGame.TeamColor.WHITE) {
+                    printSpace(i, j, out, game);
+                }
+                else{
+                    printSpace(9-i, j, out, game);
+                }
             }
             //reset background color
             out.print(RESET_BG_COLOR + "\n");

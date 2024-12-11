@@ -6,8 +6,8 @@ public class PreLoginRepl {
 
     ServerFacade serverFacade;
 
-    public PreLoginRepl(String url) {
-        this.serverFacade = new ServerFacade(url);
+    public PreLoginRepl(ServerFacade serverFacade) {
+        this.serverFacade = serverFacade;
     }
 
 

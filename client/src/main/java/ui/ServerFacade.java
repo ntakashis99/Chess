@@ -22,10 +22,11 @@ import java.util.Map;
 public class ServerFacade {
 
     private final String serverUrl;
-    private String authToken = null;
+    private String authToken;
 
     public ServerFacade(String port){
         serverUrl = port;
+        authToken = null;
     }
 
     public AuthData register(String username, String password, String email) throws ResponseException {
@@ -44,7 +45,7 @@ public class ServerFacade {
 
     public void logout() throws ResponseException {
         String path = "/session";
-        this.makeRequest("DELETE",path, Map.of("Authorization",this.authToken),null,true);
+        this.makeRequest("DELETE",path, null,null,true);
         var num = 1;
     }
 

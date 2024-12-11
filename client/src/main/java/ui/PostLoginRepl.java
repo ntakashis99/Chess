@@ -10,8 +10,8 @@ public class PostLoginRepl {
 
     private ServerFacade serverFacade;
     private GamePrinter printer;
-    public PostLoginRepl(String url) {
-        this.serverFacade = new ServerFacade(url);
+    public PostLoginRepl(ServerFacade serverFacade) {
+        this.serverFacade = serverFacade;
         this.printer = new GamePrinter(ChessGame.TeamColor.WHITE);
     }
 
@@ -117,6 +117,7 @@ public class PostLoginRepl {
                     input = scanner.nextLine();
             }
         }
+
         try {
             serverFacade.logout();
         } catch (ResponseException e) {

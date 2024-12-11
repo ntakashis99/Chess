@@ -13,9 +13,12 @@ public class Client {
 
     public Client(String url){
         this.url = url;
-        preRepl = new PreLoginRepl(this.url);
-        postRepl = new PostLoginRepl(this.url);
-        gameRepl = new GameRepl(this.url);
+        ServerFacade serverFacade = new ServerFacade(this.url);
+        //pass the faceade to all repl, so they have the same object
+        preRepl = new PreLoginRepl(serverFacade);
+        postRepl = new PostLoginRepl(serverFacade);
+        gameRepl = new GameRepl(serverFacade);
+
         status = States.PRELOGIN;
     }
 

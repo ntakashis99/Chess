@@ -2,9 +2,7 @@ package ui;
 
 import chess.ChessGame;
 import chess.ChessMove;
-import model.GameData;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class GameRepl {
@@ -12,8 +10,8 @@ public class GameRepl {
     ServerFacade serverFacade;
     GamePrinter printer;
 
-    public GameRepl(String url) {
-        this.serverFacade = new ServerFacade(url);
+    public GameRepl(ServerFacade serverFacade) {
+        this.serverFacade = serverFacade;
         this.printer = new GamePrinter(ChessGame.TeamColor.WHITE);
 
     }
