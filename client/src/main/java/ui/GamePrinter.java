@@ -30,7 +30,7 @@ public class GamePrinter {
                 }
             }
             //reset background color
-            out.print(RESET_BG_COLOR + "\n");
+            out.print(RESET_BG_COLOR + RESET_TEXT_COLOR + "\n");
         }
 
     }

@@ -5,6 +5,9 @@ import chess.ChessMove;
 
 import java.util.Scanner;
 
+import static ui.Client.getInput;
+import static ui.Client.printPrompt;
+
 public class GameRepl {
 
     ServerFacade serverFacade;
@@ -13,7 +16,6 @@ public class GameRepl {
     public GameRepl(ServerFacade serverFacade) {
         this.serverFacade = serverFacade;
         this.printer = new GamePrinter(ChessGame.TeamColor.WHITE);
-
     }
 
 
@@ -27,19 +29,15 @@ public class GameRepl {
                 3 - Leave game (exit the game)
                 4 - Help (list options)
                 """;
-        System.out.println(welcomePrompt);
-        printPrompt();
-
         ChessMove move;
-
-
         Scanner scanner = new Scanner(System.in);
-
-
         var defaultGame = new ChessGame();
+
         printer.print(defaultGame);
 
-        var input = scanner.nextLine();
+        var input = getInput(scanner,welcomePrompt);
+
+
         while(!input.equals("3")){
             switch(input){
                 case "1":
@@ -47,8 +45,14 @@ public class GameRepl {
                 case "3":
                     return Client.States.POSTLOGIN;
                 default:
+                    input = getInput(scanner,welcomePrompt);
             }
 
+        }
+        try{
+            serverFacade.logout();
+        } catch (ResponseException e) {
+            throw new RuntimeException(e);
         }
         return Client.States.QUIT;
     }

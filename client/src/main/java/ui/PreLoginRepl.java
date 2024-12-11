@@ -2,6 +2,9 @@ package ui;
 
 import java.util.Scanner;
 
+import static ui.Client.getInput;
+import static ui.Client.printPrompt;
+
 public class PreLoginRepl {
 
     ServerFacade serverFacade;
@@ -40,24 +43,20 @@ public class PreLoginRepl {
         while(!input.equals("4")){
             switch(input){
                 case "1":
-                    System.out.println("Enter username");
-                    username = scanner.nextLine();
-                    System.out.println("Enter password");
-                    password = scanner.nextLine();
-                    System.out.println("Enter email");
-                    email = scanner.nextLine();
+                    username = getInput(scanner,"Enter username");
+                    password = getInput(scanner,"Enter password");
+                    email = getInput(scanner,"Enter email");
                     try {
                         serverFacade.register(username,password,email);
                         return Client.States.POSTLOGIN;
                     } catch (ResponseException e) {
                         var msg = e.toString();
                         System.out.print("\nThere was an error with your input. Please try again\n");
+
                     }
                 case "2":
-                    System.out.println("Enter username");
-                    username = scanner.nextLine();
-                    System.out.println("Enter password");
-                    password = scanner.nextLine();
+                    username = getInput(scanner,"Enter username");
+                    password = getInput(scanner,"Enter password");
                     try {
                         serverFacade.login(username,password);
                         return Client.States.POSTLOGIN;
@@ -72,20 +71,16 @@ public class PreLoginRepl {
                     }
 
                 default:
-                    System.out.println("Please input one of the following numbers (with no whitespace) to begin\n" +
+                    input = getInput(scanner,"Please input one of the following numbers (with no whitespace) to begin\n" +
                             "                1 -  Register (a new account)\n" +
                             "                2 - Login (an existing user)\n" +
                             "                3 - Help (list options)\n" +
                             "                4 - Quit (exit the chess application)");
-                    printPrompt();
-                    input = scanner.nextLine();
             }
 
         }
         return Client.States.QUIT;
     }
 
-    public void printPrompt() {
-        System.out.println("\n>>>");
-    }
+
 }

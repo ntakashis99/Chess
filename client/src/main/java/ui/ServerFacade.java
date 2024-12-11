@@ -8,6 +8,7 @@ import model.UserData;
 import ui.requestresult.CreateGameRequest;
 import ui.requestresult.CreateGameResult;
 import ui.requestresult.JoinGameRequest;
+import ui.requestresult.ListGameResult;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,7 +47,6 @@ public class ServerFacade {
     public void logout() throws ResponseException {
         String path = "/session";
         this.makeRequest("DELETE",path, null,null,true);
-        var num = 1;
     }
 
     public int create(String gameName) throws ResponseException {
@@ -59,7 +59,7 @@ public class ServerFacade {
         String path = "/game";
         record ListGameResponse(ArrayList<GameData> games) {
         }
-        return this.makeRequest("GET",path,null, ListGameResponse.class,true).games();
+        return this.makeRequest("GET",path,null, ListGameResult.class,true).games();
     }
 
     public int join(String color, int gameID) throws ResponseException {
@@ -81,7 +81,7 @@ public class ServerFacade {
             http.setRequestMethod(method);
             http.setDoOutput(true);
 
-//You need to write it to the headers
+            //You need to write it to the headers
             if(header){
                 writeHeader(this.authToken,http);
             }

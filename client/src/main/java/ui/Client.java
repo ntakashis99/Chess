@@ -1,6 +1,10 @@
 package ui;
 
 
+import org.junit.platform.commons.util.StringUtils;
+
+import java.util.Scanner;
+
 public class Client {
 
     private final String url;
@@ -45,10 +49,28 @@ public class Client {
 
     }
 
-    enum States{
+    public enum States{
         POSTLOGIN,
         PRELOGIN,
         GAME,
         QUIT
     }
+    public static String getInput(Scanner scanner,String prompt){
+        System.out.println(prompt);
+        printPrompt();
+        String input = scanner.nextLine();
+
+        while(StringUtils.containsWhitespace(input)){
+            System.out.println("\nInput cannot contain whitespace. Try again\n");
+            System.out.println(prompt);
+            printPrompt();
+            input = scanner.nextLine();
+        }
+        return input;
+    }
+
+    public static void printPrompt() {
+        System.out.println("\n>>>");
+    }
+
 }
