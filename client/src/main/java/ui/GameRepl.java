@@ -5,6 +5,6 @@ public class GameRepl {
     }
 
     public Client.States run() {
-        return Client.States.LOGOUT;
+        return Client.States.QUIT;
     }
 }
