@@ -25,6 +25,9 @@ public class PreLoginRepl {
                 """;
         System.out.println(welcomePrompt);
 
+        printPrompt();
+
+
         String username;
         String password;
         String email;
@@ -73,5 +76,9 @@ public class PreLoginRepl {
 
         }
         return Client.States.QUIT;
+    }
+
+    public void printPrompt() {
+        System.out.println("\n>>>");
     }
 }
