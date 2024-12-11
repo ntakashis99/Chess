@@ -12,7 +12,7 @@ public class PreLoginRepl {
 
 
     //Run shouldn't return void, return the new status
-    public void run() {
+    public Client.States run() {
         String welcomePrompt =
                 """
                 \uD83D\uDC36
@@ -44,6 +44,7 @@ public class PreLoginRepl {
                     email = scanner.nextLine();
                     try {
                         serverFacade.register(username,password,email);
+                        return Client.States.POSTLOGIN;
                     } catch (ResponseException e) {
                         var msg = e.toString();
                         System.out.print(msg);
@@ -55,10 +56,12 @@ public class PreLoginRepl {
                     password = scanner.nextLine();
                     try {
                         serverFacade.login(username,password);
+                        return Client.States.POSTLOGIN;
                     } catch (ResponseException e) {
                         var msg = e.toString();
                         System.out.print(msg);
                     }
+
                 default:
                     System.out.println("Please input one of the following numbers to begin\n" +
                             "                1 -  Register (a new account)\n" +
@@ -68,8 +71,7 @@ public class PreLoginRepl {
                     input = scanner.nextLine();
             }
 
-
         }
-
+        return Client.States.QUIT;
     }
 }

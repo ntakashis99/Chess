@@ -2,6 +2,7 @@ package client;
 
 import org.junit.jupiter.api.*;
 import server.Server;
+import ui.ResponseException;
 import ui.ServerFacade;
 
 
@@ -13,9 +14,9 @@ public class ServerFacadeTests {
     @BeforeAll
     public static void init() {
         server = new Server();
-        var port = server.run(0);
+        var port = server.run(8080);
         System.out.println("Started test HTTP server on " + port);
-        serverFacade = new ServerFacade("");
+        serverFacade = new ServerFacade("http://localhost:8080");
     }
 
     @AfterAll
@@ -31,6 +32,11 @@ public class ServerFacadeTests {
 
     @Test
     public void registerPositive(){
+        try {
+            var a = serverFacade.register("nephi","bad","nephi@gmail");
+        } catch (ResponseException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
