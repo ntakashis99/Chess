@@ -143,7 +143,7 @@ public class ServerFacadeTests {
         try {
             var a = serverFacade.register("nephi","bad","nephi@gmail");
             serverFacade.create("newGame");
-            serverFacade.join("Black",1);
+            serverFacade.join("BLACK",1);
             list = serverFacade.list();
         } catch (ResponseException e) {
             throw new RuntimeException(e);
@@ -157,7 +157,7 @@ public class ServerFacadeTests {
         try {
             var a = serverFacade.register("nephi","bad","nephi@gmail");
             serverFacade.create("newGame");
-            serverFacade.join("Black",1);
+            serverFacade.join("BLACK",1);
             list = serverFacade.list();
         } catch (ResponseException e) {
             throw new RuntimeException(e);

@@ -6,6 +6,7 @@ import model.AuthData;
 import model.GameData;
 import model.UserData;
 import ui.requestresult.CreateGameRequest;
+import ui.requestresult.CreateGameResult;
 import ui.requestresult.JoinGameRequest;
 
 import java.io.IOException;
@@ -29,54 +30,60 @@ public class ServerFacade {
 
     public AuthData register(String username, String password, String email) throws ResponseException {
         String path = "/user";
-        var auth =  this.makeRequest("POST", path, new UserData(username, password, email), AuthData.class);
+        var auth =  this.makeRequest("POST", path, new UserData(username, password, email), AuthData.class,false);
         this.authToken = auth.authToken();
         return auth;
     }
 
     public AuthData login(String username, String password) throws ResponseException {
         String path = "/session";
-        var auth =  this.makeRequest("POST", path, new UserData(username, password,null), AuthData.class);
+        var auth =  this.makeRequest("POST", path, new UserData(username, password,null), AuthData.class,false);
         this.authToken = auth.authToken();
         return auth;
     }
 
     public void logout() throws ResponseException {
         String path = "/session";
-        this.makeRequest("DELETE",path, Map.of("Authorization",this.authToken),null);
+        this.makeRequest("DELETE",path, Map.of("Authorization",this.authToken),null,true);
         var num = 1;
     }
 
     public int create(String gameName) throws ResponseException {
         String path = "/game";
-        return this.makeRequest("POST",path,new CreateGameRequest(this.authToken,gameName),int.class);
+        CreateGameResult result = this.makeRequest("POST",path,new CreateGameRequest(this.authToken,gameName),CreateGameResult.class,true);
+        return result.gameID();
     }
 
     public ArrayList<GameData> list() throws ResponseException {
         String path = "/game";
         record listGameResponse(ArrayList<GameData> games) {
         }
-        return this.makeRequest("GET",path,this.authToken, listGameResponse.class).games();
+        return this.makeRequest("GET",path,null, listGameResponse.class,true).games();
     }
 
     public int join(String color, int gameID) throws ResponseException {
         String path = "/game";
-        return this.makeRequest("PUT",path, new JoinGameRequest(this.authToken,color,gameID),int.class);
+        CreateGameResult result = this.makeRequest("PUT",path, new JoinGameRequest(this.authToken,color,gameID),CreateGameResult.class,true);
+        return result.gameID();
     }
 
     public void clear() throws ResponseException {
         String path = "/db";
-        this.makeRequest("DELETE",path,null,null);
+        this.makeRequest("DELETE",path,null,null,false);
     }
 
 
-    private <T> T makeRequest(String method, String path, Object request, Class<T> responseClass) throws ResponseException {
+    private <T> T makeRequest(String method, String path, Object request, Class<T> responseClass, Boolean header) throws ResponseException {
         try {
             URL url = (new URI(serverUrl + path)).toURL();
             HttpURLConnection http = (HttpURLConnection) url.openConnection();
             http.setRequestMethod(method);
             http.setDoOutput(true);
+
 //You need to write it to the headers
+            if(header){
+                writeHeader(this.authToken,http);
+            }
             writeBody(request, http);
             http.connect();
             throwIfNotSuccessful(http);
@@ -86,6 +93,11 @@ public class ServerFacade {
         } catch (Exception ex) {
             throw new ResponseException(500, ex.getMessage());
         }
+    }
+
+    private void writeHeader(String authToken, HttpURLConnection http) throws IOException {
+        http.addRequestProperty("Authorization", authToken);
+        //http.addRequestProperty("authorization",authToken);
     }
 
 
