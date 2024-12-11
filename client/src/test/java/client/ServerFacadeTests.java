@@ -17,7 +17,15 @@ public class ServerFacadeTests {
         var port = server.run(8080);
         System.out.println("Started test HTTP server on " + port);
         serverFacade = new ServerFacade("http://localhost:8080");
+        try {
+            serverFacade.clear();
+        } catch (ResponseException e) {
+            throw new RuntimeException(e);
+        }
     }
+
+    //@AfterEach
+    //Remember to clear the server (maybe add this to before each
 
     @AfterAll
     static void stopServer() {

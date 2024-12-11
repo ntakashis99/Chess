@@ -22,6 +22,7 @@ public class ResponseException extends Exception {
     public static ResponseException fromJson(InputStream stream) {
         var map = new Gson().fromJson(new InputStreamReader(stream), HashMap.class);
         var status = ((Double)map.get("status")).intValue();
+        //Figure out why the message is null(403 shouldn't be)
         String message = map.get("message").toString();
         return new ResponseException(status, message);
     }

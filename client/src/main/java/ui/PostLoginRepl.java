@@ -85,8 +85,10 @@ public class PostLoginRepl {
                         var msg = e.toString();
                         System.out.print(msg);
                     }
-                case "4":
+                    //Print the board in the game repl
 
+                case "4":
+                    //Just print the default board
 
                 case "5":
                     try{
