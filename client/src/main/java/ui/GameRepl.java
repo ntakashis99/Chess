@@ -22,7 +22,6 @@ public class GameRepl {
     public Client.States run() {
         String welcomePrompt =
                 """
-                \uD83D\uDC36
                 Time for Chess!
                 Please input one of the following numbers to begin
                 1 - Make move

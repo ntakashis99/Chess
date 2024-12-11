@@ -17,7 +17,6 @@ public class PostLoginRepl {
     public Client.States run() {
         String welcomePrompt =
                 """
-                \uD83D\uDC36
                 Hello User!
                 Please input one of the following numbers to begin
                 1 - Create (a chess game)

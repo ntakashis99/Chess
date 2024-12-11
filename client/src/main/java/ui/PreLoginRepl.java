@@ -15,7 +15,6 @@ public class PreLoginRepl {
     public Client.States run() {
         String welcomePrompt =
                 """
-                \uD83D\uDC36
                 Welcome to Chess!
                 Please input one of the following numbers to begin
                 1 -  Register (a new account)

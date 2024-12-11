@@ -16,6 +16,7 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class ServerFacade {
 
@@ -42,7 +43,8 @@ public class ServerFacade {
 
     public void logout() throws ResponseException {
         String path = "/session";
-        this.makeRequest("DELETE",path,this.authToken,null);
+        this.makeRequest("DELETE",path, Map.of("Authorization",this.authToken),null);
+        var num = 1;
     }
 
     public int create(String gameName) throws ResponseException {
@@ -74,7 +76,7 @@ public class ServerFacade {
             HttpURLConnection http = (HttpURLConnection) url.openConnection();
             http.setRequestMethod(method);
             http.setDoOutput(true);
-
+//You need to write it to the headers
             writeBody(request, http);
             http.connect();
             throwIfNotSuccessful(http);
@@ -90,6 +92,7 @@ public class ServerFacade {
     private static void writeBody(Object request, HttpURLConnection http) throws IOException {
         if (request != null) {
             http.addRequestProperty("Content-Type", "application/json");
+            //http.addRequestProperty("authorization",authToken);
             String reqData = new Gson().toJson(request);
             try (OutputStream reqBody = http.getOutputStream()) {
                 reqBody.write(reqData.getBytes());
