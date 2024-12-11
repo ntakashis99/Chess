@@ -3,7 +3,7 @@ package ui;
 
 public class Client {
 
-    private final String URL;
+    private final String url;
     private final PreLoginRepl preRepl;
     private final PostLoginRepl postRepl;
     private final GameRepl gameRepl;
@@ -12,10 +12,10 @@ public class Client {
 
 
     public Client(String url){
-        this.URL = url;
-        preRepl = new PreLoginRepl(this.URL);
-        postRepl = new PostLoginRepl(this.URL);
-        gameRepl = new GameRepl(this.URL);
+        this.url = url;
+        preRepl = new PreLoginRepl(this.url);
+        postRepl = new PostLoginRepl(this.url);
+        gameRepl = new GameRepl(this.url);
         status = States.PRELOGIN;
     }
 

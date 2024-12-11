@@ -170,13 +170,12 @@ public class ServerFacadeTests {
         try {
             var a = serverFacade.register("nephi", "bad", "nephi@gmail");
             serverFacade.create("newGame");
+            serverFacade.create("othergame");
             list = serverFacade.list();
         } catch (ResponseException e) {
             throw new RuntimeException(e);
         }
-        Assertions.assertFalse(list.isEmpty());
-
-
+        Assertions.assertEquals(list.getFirst().getClass(),GameData.class);
     }
     @Test
     public void listFail(){
