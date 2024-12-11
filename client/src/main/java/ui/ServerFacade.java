@@ -56,9 +56,9 @@ public class ServerFacade {
 
     public ArrayList<GameData> list() throws ResponseException {
         String path = "/game";
-        record listGameResponse(ArrayList<GameData> games) {
+        record ListGameResponse(ArrayList<GameData> games) {
         }
-        return this.makeRequest("GET",path,null, listGameResponse.class,true).games();
+        return this.makeRequest("GET",path,null, ListGameResponse.class,true).games();
     }
 
     public int join(String color, int gameID) throws ResponseException {
