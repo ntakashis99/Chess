@@ -75,6 +75,7 @@ public class PostLoginRepl {
                         continue;
                     }
                     System.out.println("\nEnter a gameID");
+                    printPrompt();
                     gameID = Integer.parseInt(scanner.nextLine());
                     try {
                         gameID = serverFacade.join(String.valueOf(color),gameID);
@@ -88,7 +89,12 @@ public class PostLoginRepl {
 
 
                 case "5":
-
+                    try{
+                        serverFacade.logout();
+                    }catch (ResponseException e) {
+                        var msg = e.toString();
+                        System.out.print(msg);
+                    }
 
 
                 default:
@@ -102,11 +108,9 @@ public class PostLoginRepl {
                             "                7 - Help (list options)");
                     input = scanner.nextLine();
             }
-
         }
         return Client.States.QUIT;
     }
-
     public void printPrompt(){
         System.out.println("\n>>>");
     }
