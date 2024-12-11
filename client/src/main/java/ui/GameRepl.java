@@ -10,8 +10,12 @@ import java.util.Scanner;
 public class GameRepl {
 
     ServerFacade serverFacade;
+    GamePrinter printer;
+
     public GameRepl(String url) {
         this.serverFacade = new ServerFacade(url);
+        this.printer = new GamePrinter(ChessGame.TeamColor.WHITE);
+
     }
 
 
@@ -31,7 +35,12 @@ public class GameRepl {
 
         ChessMove move;
 
+
         Scanner scanner = new Scanner(System.in);
+
+
+        var defaultGame = new ChessGame();
+        printer.print(defaultGame);
 
         var input = scanner.nextLine();
         while(!input.equals("3")){
@@ -39,6 +48,7 @@ public class GameRepl {
                 case "1":
                 case "2":
                 case "3":
+                    return Client.States.POSTLOGIN;
                 default:
             }
 

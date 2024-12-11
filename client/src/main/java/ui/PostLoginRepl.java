@@ -1,5 +1,6 @@
 package ui;
 
+import chess.ChessBoard;
 import chess.ChessGame;
 import model.GameData;
 
@@ -89,7 +90,7 @@ public class PostLoginRepl {
 
                 case "4":
                     //Just print the default board
-
+                    var defaultBoard = new ChessBoard();
                 case "5":
                     try{
                         serverFacade.logout();
