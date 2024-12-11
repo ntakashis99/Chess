@@ -25,50 +25,50 @@ public class GamePrinter {
                 if((i+j)%2==0){
                     var piece = game.getBoard().getPiece(new ChessPosition(i,j));
                     if(piece == null){
-                        out.print(loc + SET_BG_COLOR_WHITE);
+                        out.print(loc + SET_BG_COLOR_WHITE + "   ");
                         continue;
                     }
                     if(piece.getTeamColor()== ChessGame.TeamColor.WHITE) {
                         switch (piece.getPieceType()) {
                             case ROOK:
-                                out.print(loc + SET_BG_COLOR_WHITE + SET_TEXT_COLOR_RED + "R");
+                                out.print(loc + SET_BG_COLOR_WHITE + SET_TEXT_COLOR_RED + " R ");
                                 continue;
                             case PAWN:
-                                out.print(loc + SET_BG_COLOR_WHITE + SET_TEXT_COLOR_RED + "P");
+                                out.print(loc + SET_BG_COLOR_WHITE + SET_TEXT_COLOR_RED + " P ");
                                 continue;
                             case KNIGHT:
-                                out.print(loc + SET_BG_COLOR_WHITE + SET_TEXT_COLOR_RED + "N");
+                                out.print(loc + SET_BG_COLOR_WHITE + SET_TEXT_COLOR_RED + " N ");
                                 continue;
                             case KING:
-                                out.print(loc + SET_BG_COLOR_WHITE + SET_TEXT_COLOR_RED + "K");
+                                out.print(loc + SET_BG_COLOR_WHITE + SET_TEXT_COLOR_RED + " K ");
                                 continue;
                             case QUEEN:
-                                out.print(loc + SET_BG_COLOR_WHITE + SET_TEXT_COLOR_RED + "Q");
+                                out.print(loc + SET_BG_COLOR_WHITE + SET_TEXT_COLOR_RED + " Q ");
                                 continue;
                             case BISHOP:
-                                out.print(loc + SET_BG_COLOR_WHITE + SET_TEXT_COLOR_RED + "B");
+                                out.print(loc + SET_BG_COLOR_WHITE + SET_TEXT_COLOR_RED + " B ");
                                 continue;
                         }
                     }
                     else{
                         switch (piece.getPieceType()) {
                             case ROOK:
-                                out.print(loc + SET_BG_COLOR_WHITE + SET_TEXT_COLOR_BLUE + "R");
+                                out.print(loc + SET_BG_COLOR_WHITE + SET_TEXT_COLOR_BLUE + " R ");
                                 continue;
                             case PAWN:
-                                out.print(loc + SET_BG_COLOR_WHITE + SET_TEXT_COLOR_BLUE + "P");
+                                out.print(loc + SET_BG_COLOR_WHITE + SET_TEXT_COLOR_BLUE + " P ");
                                 continue;
                             case KNIGHT:
-                                out.print(loc + SET_BG_COLOR_WHITE + SET_TEXT_COLOR_BLUE + "N");
+                                out.print(loc + SET_BG_COLOR_WHITE + SET_TEXT_COLOR_BLUE + " N ");
                                 continue;
                             case KING:
-                                out.print(loc + SET_BG_COLOR_WHITE + SET_TEXT_COLOR_BLUE + "K");
+                                out.print(loc + SET_BG_COLOR_WHITE + SET_TEXT_COLOR_BLUE + " K ");
                                 continue;
                             case QUEEN:
-                                out.print(loc + SET_BG_COLOR_WHITE + SET_TEXT_COLOR_BLUE + "Q");
+                                out.print(loc + SET_BG_COLOR_WHITE + SET_TEXT_COLOR_BLUE + " Q ");
                                 continue;
                             case BISHOP:
-                                out.print(loc + SET_BG_COLOR_WHITE + SET_TEXT_COLOR_BLUE + "B");
+                                out.print(loc + SET_BG_COLOR_WHITE + SET_TEXT_COLOR_BLUE + " B ");
                                 continue;
                             }
                         }
@@ -76,56 +76,58 @@ public class GamePrinter {
                 }else{
                     var piece = game.getBoard().getPiece(new ChessPosition(i,j));
                     if(piece == null){
-                        out.print(loc + SET_BG_COLOR_BLACK);
+                        out.print(loc + SET_BG_COLOR_BLACK + "   ");
                         continue;
                     }
                     if(piece.getTeamColor()== ChessGame.TeamColor.WHITE) {
                         switch (piece.getPieceType()) {
                             case ROOK:
-                                out.print(loc + SET_BG_COLOR_BLACK + SET_TEXT_COLOR_RED + "R");
+                                out.print(loc + SET_BG_COLOR_BLACK + SET_TEXT_COLOR_RED + " R ");
                                 continue;
                             case PAWN:
-                                out.print(loc + SET_BG_COLOR_BLACK + SET_TEXT_COLOR_RED + "P");
+                                out.print(loc + SET_BG_COLOR_BLACK + SET_TEXT_COLOR_RED + " P ");
                                 continue;
                             case KNIGHT:
-                                out.print(loc + SET_BG_COLOR_BLACK + SET_TEXT_COLOR_RED + "N");
+                                out.print(loc + SET_BG_COLOR_BLACK + SET_TEXT_COLOR_RED + " N ");
                                 continue;
                             case KING:
-                                out.print(loc + SET_BG_COLOR_BLACK + SET_TEXT_COLOR_RED + "K");
+                                out.print(loc + SET_BG_COLOR_BLACK + SET_TEXT_COLOR_RED + " K ");
                                 continue;
                             case QUEEN:
-                                out.print(loc + SET_BG_COLOR_BLACK + SET_TEXT_COLOR_RED + "Q");
+                                out.print(loc + SET_BG_COLOR_BLACK + SET_TEXT_COLOR_RED + " Q ");
                                 continue;
                             case BISHOP:
-                                out.print(loc + SET_BG_COLOR_BLACK + SET_TEXT_COLOR_RED + "B");
+                                out.print(loc + SET_BG_COLOR_BLACK + SET_TEXT_COLOR_RED + " B ");
                                 continue;
                         }
                     }
                     else{
                         switch (piece.getPieceType()) {
                             case ROOK:
-                                out.print(loc + SET_BG_COLOR_BLACK + SET_TEXT_COLOR_BLUE + "R");
+                                out.print(loc + SET_BG_COLOR_BLACK + SET_TEXT_COLOR_BLUE + " R ");
                                 continue;
                             case PAWN:
-                                out.print(loc + SET_BG_COLOR_BLACK + SET_TEXT_COLOR_BLUE + "P");
+                                out.print(loc + SET_BG_COLOR_BLACK + SET_TEXT_COLOR_BLUE + " P ");
                                 continue;
                             case KNIGHT:
-                                out.print(loc + SET_BG_COLOR_BLACK + SET_TEXT_COLOR_BLUE + "N");
+                                out.print(loc + SET_BG_COLOR_BLACK + SET_TEXT_COLOR_BLUE + " N ");
                                 continue;
                             case KING:
-                                out.print(loc + SET_BG_COLOR_BLACK + SET_TEXT_COLOR_BLUE + "K");
+                                out.print(loc + SET_BG_COLOR_BLACK + SET_TEXT_COLOR_BLUE + " K ");
                                 continue;
                             case QUEEN:
-                                out.print(loc + SET_BG_COLOR_BLACK + SET_TEXT_COLOR_BLUE + "Q");
+                                out.print(loc + SET_BG_COLOR_BLACK + SET_TEXT_COLOR_BLUE + " Q ");
                                 continue;
                             case BISHOP:
-                                out.print(loc + SET_BG_COLOR_BLACK + SET_TEXT_COLOR_BLUE + "B");
+                                out.print(loc + SET_BG_COLOR_BLACK + SET_TEXT_COLOR_BLUE + " B ");
                                 continue;
                         }
                     }
                 }
 
             }
+            //reset background color
+            out.print(RESET_BG_COLOR + "\n");
         }
 
     }
