@@ -1,6 +1,5 @@
 package ui;
 
-import chess.ChessBoard;
 import chess.ChessGame;
 import model.GameData;
 
@@ -10,8 +9,10 @@ import java.util.Scanner;
 public class PostLoginRepl {
 
     private ServerFacade serverFacade;
+    private GamePrinter printer;
     public PostLoginRepl(String url) {
         this.serverFacade = new ServerFacade(url);
+        this.printer = new GamePrinter(ChessGame.TeamColor.WHITE);
     }
 
     public Client.States run() {
@@ -52,6 +53,7 @@ public class PostLoginRepl {
                         var msg = e.toString();
                         System.out.print(msg);
                     }
+                    continue;
                 case "2":
                     try {
                         list = serverFacade.list();
@@ -62,6 +64,7 @@ public class PostLoginRepl {
                         var msg = e.toString();
                         System.out.print(msg);
                     }
+                    continue;
                 case "3":
                     System.out.println("\nEnter game color (W or B)");
                     printPrompt();
@@ -85,11 +88,15 @@ public class PostLoginRepl {
                         var msg = e.toString();
                         System.out.print(msg);
                     }
+                    continue;
                     //Print the board in the game repl
 
                 case "4":
                     //Just print the default board
-                    var defaultBoard = new ChessBoard();
+                    var defaultGame = new ChessGame();
+                    printer.print(defaultGame);
+                    input = "7";
+                    continue;
                 case "5":
                     try{
                         serverFacade.logout();
@@ -97,8 +104,7 @@ public class PostLoginRepl {
                         var msg = e.toString();
                         System.out.print(msg);
                     }
-
-
+                    return Client.States.PRELOGIN;
                 default:
                     System.out.println("\nPlease input one of the following numbers to begin\n" +
                             "                1 - Create (a chess game)\n" +
@@ -110,6 +116,11 @@ public class PostLoginRepl {
                             "                7 - Help (list options)");
                     input = scanner.nextLine();
             }
+        }
+        try {
+            serverFacade.logout();
+        } catch (ResponseException e) {
+            throw new RuntimeException(e);
         }
         return Client.States.QUIT;
     }

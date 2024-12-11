@@ -28,9 +28,11 @@ public class Client {
                 }
                 case PRELOGIN: {
                     status = preRepl.run();
+                    continue;
                 }
                 case POSTLOGIN: {
                     status = postRepl.run();
+                    continue;
                 }
                 case GAME: {
                     status = gameRepl.run();
