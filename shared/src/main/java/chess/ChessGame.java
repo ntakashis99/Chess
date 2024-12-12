@@ -1,7 +1,5 @@
 package chess;
 
-import com.sun.source.tree.WhileLoopTree;
-
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -178,12 +176,9 @@ public class ChessGame {
                 }
                 if((currPiece.getTeamColor() != teamColor)){
                     var attacks = currPiece.pieceMoves(board,currentPos);
-                    for(var move:attacks){
-                        ChessPosition endPos = move.getEndPosition();
-                        boolean condition = (endPos.getRow()==kingpos.getRow() && endPos.getColumn()==kingpos.getColumn());
-                        if(condition){
-                            return true;
-                        }
+                    int is = isCheck(attacks,kingpos);
+                    if(is>0){
+                        return true;
                     }
                 }
             }
@@ -191,6 +186,19 @@ public class ChessGame {
 
         return false;
     }
+
+    public int isCheck(Collection<ChessMove> attacks,ChessPosition kingpos){
+        ArrayList<Integer> list = new ArrayList<>();
+        for(var move:attacks){
+            ChessPosition endPos = move.getEndPosition();
+            boolean condition = (endPos.getRow()==kingpos.getRow() && endPos.getColumn()==kingpos.getColumn());
+            if(condition){
+                list.add(1);
+            }
+        }
+        return list.stream().mapToInt(Integer::intValue).sum();
+    }
+
 
     /**
      * Determines if the given team is in checkmate
