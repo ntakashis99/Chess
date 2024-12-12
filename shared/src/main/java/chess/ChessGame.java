@@ -205,32 +205,40 @@ public class ChessGame {
         else{
             for(int i=1; i<=8;i++){
                 for(int j=1;j<=8;j++){
-                    ChessPosition currentPos = new ChessPosition(i,j);
-                    var currPiece = board.getPiece(currentPos);
-                    if(currPiece==null){
-                        continue;
-                    }
-                    if((currPiece.getTeamColor() == teamColor)){
-                        var moves = currPiece.pieceMoves(board,currentPos);
-                        for(var move:moves){
-                            var p1 = board.getPiece(move.getEndPosition());
-                            var p2 = board.getPiece(move.getStartPosition());
-                            board.addPiece(move.getEndPosition(),null);
-                            board.addPiece(move.getStartPosition(),null);
-                            board.addPiece(move.getEndPosition(),currPiece);
-                            boolean inCheck = isInCheck(currPiece.getTeamColor());
-                            if(!inCheck){
-                                return false;
-                            }
-                            board.addPiece(move.getStartPosition(),p2);
-                            board.addPiece(move.getEndPosition(),p1);
-                        }
+                    var a = checkMoveBlock(i,j,teamColor);
+                    if(a.equals("n")){
+                        return false;
                     }
                 }
             }
 
         }
         return true;
+    }
+
+    public String checkMoveBlock(int i, int j, TeamColor teamColor){
+        ChessPosition currentPos = new ChessPosition(i,j);
+        var currPiece = board.getPiece(currentPos);
+        if(currPiece==null){
+            return "?";
+        }
+        if((currPiece.getTeamColor() == teamColor)){
+            var moves = currPiece.pieceMoves(board,currentPos);
+            for(var move:moves){
+                var p1 = board.getPiece(move.getEndPosition());
+                var p2 = board.getPiece(move.getStartPosition());
+                board.addPiece(move.getEndPosition(),null);
+                board.addPiece(move.getStartPosition(),null);
+                board.addPiece(move.getEndPosition(),currPiece);
+                boolean inCheck = isInCheck(currPiece.getTeamColor());
+                if(!inCheck){
+                    return "n";
+                }
+                board.addPiece(move.getStartPosition(),p2);
+                board.addPiece(move.getEndPosition(),p1);
+            }
+        }
+        return "?";
     }
 
     /**

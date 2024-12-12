@@ -99,7 +99,8 @@ public class PawnMovesRule extends PieceMoveRule {
         }return moves;
     }
 
-    private void captureRight(ChessBoard board,ChessPosition myPosition,Collection<ChessMove> moves,ChessPosition captureRight,ChessPiece captureRightPiece){
+    private void captureRight(ChessBoard board,ChessPosition myPosition,Collection<ChessMove>
+            moves,ChessPosition captureRight,ChessPiece captureRightPiece){
         if(captureRightPiece!=null) {
             if (captureRightPiece.getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
                 moves.add(new ChessMove(myPosition, captureRight, ChessPiece.PieceType.QUEEN));
