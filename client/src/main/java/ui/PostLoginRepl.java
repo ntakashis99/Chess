@@ -48,6 +48,7 @@ public class PostLoginRepl {
                     try {
                         serverFacade.create(gameName);
                         System.out.println("\nSuccess!");
+                        input = "7";
                     } catch (ResponseException e) {
                         var msg = e.toString();
                         System.out.print(msg);
@@ -56,9 +57,14 @@ public class PostLoginRepl {
                 case "2":
                     try {
                         list = serverFacade.list();
-                        for(var game:list){
-                            System.out.print(game);
+                        if(list.size()==0){
+                            System.out.println("\nThere are no games\n");
+                            input="7";
                         }
+                        for(var game:list){
+                            System.out.print(game + "\n");
+                        }
+                        input = "7";
                     } catch (ResponseException e) {
                         var msg = e.toString();
                         System.out.print(msg);
@@ -67,10 +73,10 @@ public class PostLoginRepl {
                 case "3":
 
                     String user_color = getInput(scanner,"\nEnter game color (W or B)");
-                    if(user_color=="W"||user_color=="w"){
+                    if(user_color.equals("W")||user_color.equals("w")){
                         color = ChessGame.TeamColor.WHITE;
                     }
-                    if(user_color=="B"||user_color=="b"){
+                    else if(user_color.equals("B")||user_color.equals("b")){
                         color = ChessGame.TeamColor.BLACK;
                     }else{
                         System.out.println("\nPlease enter a valid color");
