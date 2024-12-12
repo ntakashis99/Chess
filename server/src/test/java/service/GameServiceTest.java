@@ -30,10 +30,8 @@ public class GameServiceTest {
 
     @Test
     void listGames() throws DataAccessException {
-
         RegisterResult r;
         r = userService.register(new UserData("nephi","1111","1@g"));
-
         gameService.createGame(new CreateGameRequest(r.authToken(),"game1"));
         Assertions.assertNotNull(gameService.listGames(r.authToken()));
 
@@ -51,9 +49,8 @@ public class GameServiceTest {
     void createGame() throws DataAccessException {
         RegisterResult r;
         r = userService.register(new UserData("nephi","1111","1@g"));
-
         gameService.createGame(new CreateGameRequest(r.authToken(),"game1"));
-        Assertions.assertNotNull(gameService.listGames(r.authToken()));
+        Assertions.assertEquals(gameService.listGames(r.authToken()).games().size(),1);
     }
 
     @Test

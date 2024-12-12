@@ -40,23 +40,18 @@ public class PawnMovesRule extends PieceMoveRule {
                 if (myPosition.getColumn() - 1 >= 1) {
                     ChessPosition captureLeft = new ChessPosition(myPosition.getRow() + 1, myPosition.getColumn()-1 );
                     ChessPiece captureLeftPiece = board.getPiece(captureLeft);
-                    if(captureLeftPiece!=null) {
-                        if (captureLeftPiece.getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
-                            moves.add(new ChessMove(myPosition, captureLeft, null));
-                        }
+                    if(captureLeftPiece!=null && (captureLeftPiece.getTeamColor() != board.getPiece(myPosition).getTeamColor())) {
+                        moves.add(new ChessMove(myPosition, captureLeft, null));
                     }
                 }
                 if (myPosition.getColumn() + 1 <= 8) {
                     ChessPosition captureRight = new ChessPosition(myPosition.getRow() + 1, myPosition.getColumn()+1 );
                     ChessPiece captureRightPiece = board.getPiece(captureRight);
-                    if(captureRightPiece!=null) {
-                        if (captureRightPiece.getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
-                            moves.add(new ChessMove(myPosition, captureRight, null));
-                        }
+                    if(captureRightPiece!=null && (captureRightPiece.getTeamColor() != board.getPiece(myPosition).getTeamColor())) {
+                        moves.add(new ChessMove(myPosition, captureRight, null));
                     }
                 }
             }
-
         }else if(type== ChessGame.TeamColor.BLACK){
             ChessPosition newPosition = new ChessPosition(myPosition.getRow()-1, myPosition.getColumn() );
             ChessPiece piece = board.getPiece(newPosition);
@@ -89,26 +84,22 @@ public class PawnMovesRule extends PieceMoveRule {
                 if (myPosition.getColumn() - 1 >= 1) {
                     ChessPosition captureLeft = new ChessPosition(myPosition.getRow() - 1, myPosition.getColumn()-1 );
                     ChessPiece captureLeftPiece = board.getPiece(captureLeft);
-                    if(captureLeftPiece!=null) {
-                        if (captureLeftPiece.getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
-                            moves.add(new ChessMove(myPosition, captureLeft, null));
-                        }
+                    if(captureLeftPiece!=null && (captureLeftPiece.getTeamColor() != board.getPiece(myPosition).getTeamColor())) {
+                        moves.add(new ChessMove(myPosition, captureLeft, null));
                     }
                 }
                 if (myPosition.getColumn() + 1 <= 8) {
                     ChessPosition captureRight = new ChessPosition(myPosition.getRow() - 1, myPosition.getColumn()+1 );
                     ChessPiece captureRightPiece = board.getPiece(captureRight);
-                    if(captureRightPiece!=null) {
-                        if (captureRightPiece.getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
-                            moves.add(new ChessMove(myPosition, captureRight, null));
-                        }
+                    if(captureRightPiece!=null&&(captureRightPiece.getTeamColor() != board.getPiece(myPosition).getTeamColor())) {
+                        moves.add(new ChessMove(myPosition, captureRight, null));
                     }
                 }
             }
         }return moves;
     }
 
-    private void captureRight(ChessBoard board, ChessPosition myPosition, Collection<ChessMove> moves, ChessPosition captureRight, ChessPiece captureRightPiece) {
+    private void captureRight(ChessBoard board,ChessPosition myPosition,Collection<ChessMove> moves,ChessPosition captureRight,ChessPiece captureRightPiece){
         if(captureRightPiece!=null) {
             if (captureRightPiece.getTeamColor() != board.getPiece(myPosition).getTeamColor()) {
                 moves.add(new ChessMove(myPosition, captureRight, ChessPiece.PieceType.QUEEN));
