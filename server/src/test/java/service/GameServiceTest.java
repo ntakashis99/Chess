@@ -65,9 +65,6 @@ public class GameServiceTest {
         GameService gameService = new GameService(userDAO,authDAO,gameDAO);
         UserService userService = new UserService(userDAO,authDAO,gameDAO);
 
-        RegisterResult r;
-        r = userService.register(new UserData("nephi","1111","1@g"));
-        gameService.createGame(new CreateGameRequest(r.authToken(),"game1"));
         Assertions.assertThrows(InvalidUserException.class,()->gameService.createGame(new CreateGameRequest(null,null)));
     }
 

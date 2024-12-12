@@ -24,10 +24,6 @@ public class Server {
     private GameDAO gameDao;
 
     public Server() {
-//        userDao = new MemoryUserDAO();
-//        authDao = new MemoryAuthDAO();
-//        gameDao = new MemoryGameDAO();
-        //Start up Database manager
         try {
             DatabaseManager.createDatabase();
             DatabaseManager.createTables();
@@ -72,7 +68,7 @@ public class Server {
         JoinGameRequest request1 = new JoinGameRequest(request.headers("authorization"), tempReq.playerColor(), tempReq.gameID());
 
         try {
-            if (request1.authorization() == null || request1.playerColor() == null|| request1.gameID() < 1 || request1.gameID() > gameDao.getNumGames()) {
+            if (request1.authorization()==null||request1.playerColor()==null||request1.gameID()<1||request1.gameID()>gameDao.getNumGames()){
                 response.status(400);
                 return new Gson().toJson(new ErrorResponse("Error: bad request"));
             }
