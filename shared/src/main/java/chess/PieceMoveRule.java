@@ -10,7 +10,8 @@ public abstract class PieceMoveRule {
         Collection<ChessMove> moves = new ArrayList<>();
         for (int[] move : moveChanges) {
             //Add boundary checking for positions
-            if((myPosition.getRow() + move[0] > 8) ||(myPosition.getRow() + move[0] < 1 ) || (myPosition.getColumn()+ move[1] > 8) || (myPosition.getColumn()+ move[1] < 1)){
+            if((myPosition.getRow() + move[0] > 8) ||(myPosition.getRow() + move[0] < 1 ) ||
+                    (myPosition.getColumn()+ move[1] > 8) || (myPosition.getColumn()+ move[1] < 1)){
                 continue;
             }
             else {
@@ -36,7 +37,8 @@ public abstract class PieceMoveRule {
         for (int[] direction : directions) {
             //Check bounds
             ChessPosition currentPos = myPosition;
-            while(!(currentPos.getRow() + direction[0] > 8) && !(currentPos.getRow() + direction[0] < 1 ) && !(currentPos.getColumn()+ direction[1] > 8) && !(currentPos.getColumn()+ direction[1] < 1)){
+            while(!(currentPos.getRow() + direction[0] > 8) && !(currentPos.getRow() + direction[0] < 1 )
+                    && !(currentPos.getColumn()+ direction[1] > 8) && !(currentPos.getColumn()+ direction[1] < 1)){
                 ChessPosition newPosition = new ChessPosition(currentPos.getRow() + direction[0], currentPos.getColumn() + direction[1]);
                 ChessPiece piece = board.getPiece(newPosition);
                 if (piece != null) {
